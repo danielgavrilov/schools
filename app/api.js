@@ -1,6 +1,6 @@
 var mongojs = require('mongojs');
 var express = require('express');
-var db = mongojs('ks5', ['schools']);
+var db = mongojs(process.env["DATABASE_URL"], ['schools']);
 var schools = db.schools;
 var app = module.exports = express();
 
