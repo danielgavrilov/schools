@@ -1,10 +1,8 @@
 var mongojs = require('mongojs');
 var express = require('express');
-
 var db = mongojs('ks5', ['schools']);
 var schools = db.schools;
-
-var api = module.exports = express();
+var app = module.exports = express();
 
 function validURN(urn) {
   urn = urn.toString().trim();
@@ -52,7 +50,7 @@ function parseLngLat(req, res, next) {
   next();
 }
 
-api.get('/schools', function(req, res, next) {
+app.get('/schools', function(req, res, next) {
   var urns;
   if (req.query.urns) {
     urns = req.query.urns.split(',');
@@ -66,7 +64,7 @@ api.get('/schools', function(req, res, next) {
   });
 });
 
-api.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) {
+app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) {
   if (req.lng === undefined || req.lat === undefined) return res.json(400, {
     message: "No valid location was provided."
   });
@@ -94,7 +92,7 @@ api.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) 
   });
 });
 
-api.get('/', function(req, res, next) {
+app.get('/', function(req, res, next) {
   res.json(404, {
     message: 'Invalid usage.'
   });
