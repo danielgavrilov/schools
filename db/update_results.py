@@ -11,7 +11,7 @@ A2 = group_xls("../data/2013/ks5_subjects.xlsx", "A level",
                header_row=2)
 
 for school in A2:
-    urn = school["URN"]
+    urn = str(school["URN"])
     subjects = {}
 
     for row in school["rows"]:

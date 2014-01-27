@@ -16,7 +16,6 @@ def format_postcode(postcode):
 #     return [lng, lat]
 
 def get_coords(postcode):
-    print("Requesting coordinates for "+postcode+"...")
     url = "http://data.ordnancesurvey.co.uk/doc/postcodeunit/" + postcode + ".json"
     response = requests.get(url).json()
     lng = float(response["http://data.ordnancesurvey.co.uk/id/postcodeunit/"+postcode]["http://www.w3.org/2003/01/geo/wgs84_pos#long"][0]['value'])
@@ -28,6 +27,7 @@ def get_location(postcode):
     try:
         return cache[postcode]
     except KeyError:
+        print("Requesting coordinates for "+postcode+"...")
         cache[postcode] = {
             "type": "Point",
             "coordinates": get_coords(postcode)
@@ -42,7 +42,7 @@ for school in missing_location:
     try:
         location = get_location(postcode)
         db.schools.update({"_id": school["_id"]}, {"$set": {"location": location} })
-    except ValueError:
+    except:
         not_found.append(postcode)
 
 if not_found:
