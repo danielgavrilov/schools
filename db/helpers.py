@@ -30,8 +30,17 @@ def parse_csv(filepath):
         for values in reader:
             yield values
 
+workbooks = dict()
+
+def open_workbook(filepath):
+    try:
+        workbooks[filepath]
+    except KeyError:
+        workbooks[filepath] = xlrd.open_workbook(filepath)
+    return workbooks[filepath]
+
 def parse_xls(filepath, sheet, header_row=0):
-    workbook = xlrd.open_workbook(filepath)
+    workbook = open_workbook(filepath)
     worksheet = workbook.sheet_by_name(sheet)
     headers = worksheet.row_values(header_row)
     for row_number in range(header_row+1, worksheet.nrows):
@@ -39,7 +48,7 @@ def parse_xls(filepath, sheet, header_row=0):
         yield to_dict(headers, values)
 
 def group_xls(filepath, sheet, group_by, extract=None, header_row=0):
-    workbook = xlrd.open_workbook(filepath)
+    workbook = open_workbook(filepath)
     worksheet = workbook.sheet_by_name(sheet)
     headers = worksheet.row_values(header_row)
 
