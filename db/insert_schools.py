@@ -1,5 +1,8 @@
-from helpers import db, mongo, parse_csv, to_int, to_float
+from pymongo import MongoClient
+from helpers import db_url, parse_csv, to_int, to_float
 
+mongo = MongoClient(db_url)
+db = mongo.ks5
 
 print("Updating school information from 2013 data...")
 for school in parse_csv("../data/2013/ks5_attainment.csv"):

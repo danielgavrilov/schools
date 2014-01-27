@@ -13,5 +13,8 @@ results
 npm-debug.log
 node_modules
 
-*.sublime-workspace
+mongohq_credentials.json
+*.env
+
 *.pyc
+*.sublime-workspace

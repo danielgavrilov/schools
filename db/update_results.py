@@ -1,5 +1,9 @@
-from helpers import db, mongo, group_xls, to_int
+from pymongo import MongoClient
+from helpers import db_url, group_xls, to_int
 from subjects import subject_name
+
+mongo = MongoClient(db_url)
+db = mongo.ks5
 
 print("Updating A-level results (2013)...")
 
