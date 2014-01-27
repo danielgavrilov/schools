@@ -26,7 +26,7 @@ for school in parse_csv("../data/2013/ks5_attainment.csv"):
                 "primary": bool(to_int(school["TABKS2"])),
                 "secondary": bool(to_int(school["TAB15"])),
                 "performance.2013.students": {
-                    "16-18": to_int(school["TPUP1618"]),
+                    "16-18": to_int(school["TPUP1618"], True),
                     "ks5": to_int(school["TALLPUPA"]),
                     "academic": to_int(school["TALLPUP_ACADA"]),
                     "vocational": to_int(school["TALLPUP_VQA"]),
@@ -40,6 +40,9 @@ for school in parse_csv("../data/2013/ks5_attainment.csv"):
         },
         upsert=True
     )
+
+    if (school["TPUP1618"] == "NEW"):
+        db.schools.update({"_id": school["URN"]}, {"$set": {"new": True}})
 
 
 # print("Updating school information from 2012 data...")
