@@ -1,0 +1,7 @@
+<% colors.forEach(function(color) { %>
+.<%= color.name %> { border-color: <%= color.dark %> !important; }
+.<%= color.name %>.focus .a-a,
+.<%= color.name %> .a-a { background-color: <%= color.dark %>; }
+.<%= color.name %>.focus .a-c,
+.<%= color.name %> .a-c { background-color: <%= color.light %>; }
+<% }); %>

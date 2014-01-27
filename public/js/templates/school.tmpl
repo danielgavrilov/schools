@@ -1,0 +1,27 @@
+<td class="name">
+  <div class="relative">
+    <div class="attributes">
+      <% if (data.gender === "Girls") { %>
+        <div class="tooltip girl">
+          <p class="message"><strong>Girls' school</strong></p>
+        </div>
+      <% } else if (data.gender === "Boys") { %> 
+        <div class="tooltip boy">
+          <p class="message"><strong>Boys' school</strong></p>
+        </div>
+      <% } %>
+    </div>
+    <%= data.name %>
+  </div>
+</td>
+<td class="performance"></td>
+<td class="total-a2"><%= data["performance"][YEAR]["students"]["a-level"] %></td>
+<td class="total-1618"><%= data["performance"][YEAR]["students"]["16-18"] %></td>
+<td class="aps-student"><%= app.utils.toFixed(data["performance"][YEAR]["aps"]["a-level"]["student"], 1) %></td>
+<td class="aps-entry"><%= app.utils.toFixed(data["performance"][YEAR]["aps"]["a-level"]["entry"], 1) %></td>
+<td class="type <%= data["supertype"].toLowerCase() %>"><%= data["supertype"] %></td>
+<td class="distance"></td>
+<td class="compare-col">
+  <button class="add-compare">Add</button>
+  <button class="remove-compare">Remove</button>
+</td>

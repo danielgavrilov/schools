@@ -1,0 +1,15 @@
+<div data-subject="<%= data.name %>" class="subject <%= data.color %><% if (!data["total"]) { %> no-entries<% } else if (!data["a-c"]) { %> suppressed<% } %>">
+  <em><%= data.name %></em>
+  <% if (data["a-c"] != null) { %>
+  <div style="width: <%= data["a-a"].perc %>" class="a-a">
+    <i><span><%= data["a-a"].num %></span></i>
+  </div>
+  <div style="width: <%= data["a-c"].perc %>" class="a-c">
+    <i><span><%= data["a-c"].num %></span></i>
+  </div>
+  <div style="width: <%= data["no-result"].perc %>" class="no-result">
+    <span><%= data["no-result"].num %></span>
+  </div>
+  <% } %>
+  <div class="entries"><%= data.total || 0 %></div>
+</div>

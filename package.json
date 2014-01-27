@@ -1,0 +1,25 @@
+{
+  "name": "schools",
+  "description": "",
+  "version": "0.0.1",
+  "homepage": "http://gavrilov.co.uk/schools",
+  "author": "Daniel Gavrilov (http://gavrilov.co.uk)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielgavrilov/Schools.git"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "express": "~3.4.7",
+    "mongojs": "~0.9.11",
+    "logfmt": "~0.18.1",
+    "ejs": "~0.8.5"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jst": "~0.5.1",
+    "grunt-contrib-watch": "~0.5.3"
+  }
+}
