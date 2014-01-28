@@ -1,3 +1,5 @@
 # A-level schools
 
-A Node powered one page web app allowing you to find and compare A-level schools, using data provided by the [Department of Education](http://www.education.gov.uk/schools/performance/download_data.html).
+A simple one-page web application for finding and comparing A-level schools, using data provided by the [Department of Education](http://www.education.gov.uk/schools/performance/download_data.html).
+
+**NOTE:** Work in progress. Latest working prototype available at [alevels.herokuapp.com](http://alevels.herokuapp.com).
