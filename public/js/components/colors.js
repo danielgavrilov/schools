@@ -8,11 +8,11 @@ app.constructors.colors = function(colorNames) {
 
 _.extend(app.constructors.colors.prototype, {
   increase: function(colorName) {
-    this.colors[colorName] = ++this.colors[colorName];
+    this.colors[colorName]++;
     return this;
   },
   decrease: function(colorName) {
-    this.colors[colorName] = --this.colors[colorName];
+    this.colors[colorName]--;
     return this;
   },
   getLeastUsed: function() {
