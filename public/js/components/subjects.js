@@ -176,6 +176,7 @@ app.collections.subjects = Backbone.Collection.extend({
 app.views.subjects = Backbone.View.extend({
   initialize: function(options) {
     var self = this;
+    this.query = '';
     this.collection = options.collection;
     this.$subjects = this.$('.subjects');
     this.$searchInput = this.$('.search-subjects');
@@ -187,15 +188,17 @@ app.views.subjects = Backbone.View.extend({
     'submit': '_onSubmit'
   },
   render: function() {
-    this._populate(this.collection.visible());
+    var models;
+    if (this.query.length) {
+      models = this.collection.search(this.query);
+    } else {
+      models = this.collection.visible();
+    }
+    this._populate(models);
   },
   search: function(query) {
-    if (query.length) {
-      var models = this.collection.search(query);
-      this._populate(models);
-    } else {
-      this.render();
-    }
+    this.query = query.trim();
+    this.render();
   },
   _populate: function(models) {
     this.$subjects[0].innerHTML = '';
