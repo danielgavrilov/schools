@@ -154,7 +154,7 @@ app.collections.subjects = Backbone.Collection.extend({
     else return visible;
   },
   _intelligentFilter: function(models) {
-    var softLimit = 18;
+    var softLimit = 20;
     var grouped = _.groupBy(models, function(model) { return model.get('count'); });
     for (var i = 1; i < 10; i++) {
       var length = grouped[i] && grouped[i].length;
