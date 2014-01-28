@@ -6,8 +6,19 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    paths: {
-      templates: ['public/js/templates/*.tmpl']
+    files: {
+      js: [
+        'public/js/vendor/jquery.js',
+        'public/js/vendor/jquery.stickytableheaders.js',
+        'public/js/vendor/underscore.js',
+        'public/js/vendor/backbone.js',
+        'public/js/vendor/backbone.queryparams-1.1-shim.js',
+        'public/js/vendor/backbone.queryparams.js',
+        'public/js/templates.js',
+        'public/js/components/*.js',
+        'public/js/main.js',
+      ],
+      templates: ['public/js/templates/*.tmpl'],
     },
 
     jst: {
@@ -23,14 +34,33 @@ module.exports = function(grunt) {
           prettify: true
         },
         files: {
-          'public/js/templates.js': ['<%= paths.templates %>']
+          'public/js/templates.js': ['<%= files.templates %>']
+        }
+      }
+    },
+
+    uglify: {
+      app: {
+        options: {
+          mangle: false,
+          compress: true,
+          sourceMap: true,
+          sourceMapRoot: 'public/',
+          preserveComments: 'some',
+        },
+        files: {
+          'public/build/app.js': ['<%= files.js %>']
         }
       }
     },
 
     watch: {
+      js: {
+        files: '<%= files.js %>',
+        tasks: ['uglify:app']
+      },
       templates: {
-        files: '<%= paths.templates %>',
+        files: '<%= files.templates %>',
         tasks: ['jst']
       },
       colors: {
@@ -69,6 +99,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jst');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['colors', 'schools', 'subjects', 'jst']);
