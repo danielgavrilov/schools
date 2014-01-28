@@ -11,7 +11,7 @@ app.views.search = Backbone.View.extend({
     'input': '_onInput',
     'submit': '_onSubmit',
     'click .use-location': function(event) {
-      this.$input.val("");
+      this.query("");
       this.byCurrentLocation();
       event.preventDefault();
     }
