@@ -102,8 +102,7 @@ app.collections.subjects = Backbone.Collection.extend({
   model: app.models.subject,
   initialize: function() {
     var self = this;
-    // introducing 'selection' event, for
-    // batching 'select's
+    // introducing 'selection' event, for batching 'select' events
     this.on('select deselect', _.debounce(function() {
       self.trigger('selection');
     }, 10));

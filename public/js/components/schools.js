@@ -229,6 +229,7 @@ app.collections.schools = Backbone.Collection.extend({
   initialize: function() {
     _.bindAll(this, '_sortDebounce');
     this.on('loaded', this._sortDebounce);
+    this.listenTo(app.subjects, 'select deselect', this._sortDebounce);
   },
   addURNs: function(urns) {
     return this.add(app.cache.getByURNs(urns));
