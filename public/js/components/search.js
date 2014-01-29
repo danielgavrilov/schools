@@ -17,8 +17,9 @@ app.views.search = Backbone.View.extend({
     }
   },
   query: function(query) {
+    var len = query.length;
     if (rePostcode.test(query)) this.byPostcode(query);
-    else if (query.length >= 3 && !reLikePostcode.test(query)) this.byName(query);
+    else if (len === 0 || (len >= 3 && !reLikePostcode.test(query))) this.byName(query);
   },
   byName: function(query) {
     this._update(query);
