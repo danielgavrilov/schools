@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      app: {
+      dest: {
         options: {
           mangle: false,
           compress: true,
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: '<%= files.js %>',
-        tasks: ['uglify:app']
+        tasks: ['compress']
       },
       templates: {
         files: '<%= files.templates %>',
@@ -98,10 +98,18 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('cleanmap', 'Change double backslash to forward slash (Windows bug).', function() {
+    var path = 'public/build/app.map';
+    var content = grunt.file.read(path);
+    content = content.replace(/\\{2}/g,'/');
+    grunt.file.write(path, content);
+  });
+
   grunt.loadNpmTasks('grunt-contrib-jst');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['colors', 'schools', 'subjects', 'jst']);
+  grunt.registerTask('default', ['colors', 'schools', 'subjects', 'jst', 'compress']);
+  grunt.registerTask('compress', ['uglify', 'cleanmap']);
 
 };
