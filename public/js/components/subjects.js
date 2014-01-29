@@ -175,7 +175,6 @@ app.collections.subjects = Backbone.Collection.extend({
 
 app.views.subjects = Backbone.View.extend({
   initialize: function(options) {
-    var self = this;
     this.query = '';
     this.collection = options.collection;
     this.$subjects = this.$('.subjects');

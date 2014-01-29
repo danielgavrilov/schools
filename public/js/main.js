@@ -1,11 +1,11 @@
 app.colors = new app.constructors.colors(app.preload.colornames);
-app.cache = new app.collections.schools(null, {
+app.cache = new app.collections.cache(null, {
   names: app.preload.schoolnames
 });
 app.subjects = new app.collections.subjects(app.preload.subjectnames.sort().map(function(name) {
   return {name: name};
 }));
-app.compare = new app.collections.URNList;
+app.compare = new app.collections.schools;
 app.results = new app.collections.results;
 
 // We need the DOM for the next operations.

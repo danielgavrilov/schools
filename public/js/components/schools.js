@@ -52,7 +52,6 @@ app.views.school = Backbone.View.extend({
     'click .remove-compare': '_removeFromCompare'
   },
   render: function() {
-    var self = this;
     var data = this.model.toJSON();
     var html = this.template(data);
     this.$el.html(html);
@@ -182,10 +181,9 @@ app.views.performance = Backbone.View.extend({
   }
 });
 
-app.collections.schools = Backbone.Collection.extend({
+app.collections.cache = Backbone.Collection.extend({
   model: app.models.school,
   initialize: function(models, options) {
-    var self = this;
     _.bindAll(this, 'load', '_fetchModels');
     this.names = options.names;
     this.on('add reset get', _.debounce(this._fetchModels, 10));
@@ -226,29 +224,29 @@ app.collections.schools = Backbone.Collection.extend({
   }
 });
 
-app.collections.URNList = Backbone.Collection.extend({
+app.collections.schools = Backbone.Collection.extend({
   model: app.models.school,
   initialize: function() {
-    var self = this;
-    this.on('loaded', _.debounce(function() {
-      if (self.comparator) self.sort();
-    }, 10));
+    _.bindAll(this, '_sortDebounce');
+    this.on('loaded', this._sortDebounce);
   },
   addURNs: function(urns) {
     return this.add(app.cache.getByURNs(urns));
   },
   resetURNs: function(urns) {
     return this.reset(app.cache.getByURNs(urns));
-  }
+  },
+  _sortDebounce: _.debounce(function() {
+    if (this.comparator) this.sort();
+  }, 10)
 });
 
-app.collections.results = app.collections.URNList.extend({
+app.collections.results = app.collections.schools.extend({
   initialize: function() {
     this.filters = [];
-    app.collections.URNList.prototype.initialize.apply(this, arguments);
+    app.collections.schools.prototype.initialize.apply(this, arguments);
   },
   visible: function() {
-    var self = this;
     var models = this.toArray();
     this.filters.forEach(function(filter) {
       models = models.filter(filter);
@@ -271,7 +269,7 @@ app.collections.results = app.collections.URNList.extend({
 });
 
 app.views.sorting = Backbone.View.extend({
-  initialize: function(options) {
+  initialize: function() {
     this.$sortable = this.$('.sortable');
     this._setupSorts();
   },
@@ -326,7 +324,6 @@ app.views.sorting = Backbone.View.extend({
     }
   },
   findEl: function(sort) {
-    var $theOne;
     var length = this.$sortable.length;
     for (var i = 0; i < length; i++) {
       var $elem = this.$sortable.eq(i);
@@ -405,7 +402,6 @@ app.views.schools = Backbone.View.extend({
     return this.compare.length + this.results.visible().length === 0;
   },
   _updateCompare: function() {
-    var self = this;
     var elems = [];
     // avoiding $(el).html() as it detaches events
     this.$compare[0].innerHTML = '';
@@ -418,7 +414,6 @@ app.views.schools = Backbone.View.extend({
     this._updateResults();
   },
   _updateResults: function() {
-    var self = this;
     var elems = [];
     // avoiding $(el).html() as it detaches events
     this.$results[0].innerHTML = '';
