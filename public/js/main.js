@@ -35,6 +35,9 @@ $(function() {
     results: app.results,
     $results: $('.results')
   });
+  app.filters = new app.views.filters({
+    el: $('.type-filter')
+  });
   
   app.router = new app.routers.main;
 

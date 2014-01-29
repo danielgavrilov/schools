@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
   color: #111;
@@ -26,16 +30,16 @@ a {
 */
 
 header {
-  padding: 50px 15px 10px;
+  padding: 30px 15px 10px;
   margin-bottom: 28px;
   background: #858585;
   border-bottom: 2px solid #666;
 }
 
 h1 {
-  font-size: 26px;
+  font-size: 30px;
   margin: 0;
-  font-weight: 400;
+  font-weight: 600;
   padding: 0;
   color: white;
   text-shadow: 0 -2px 0 rgba(0,0,0,.25);
@@ -220,7 +224,7 @@ h1 {
   .type-filter h2 {
     float: left;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     color: #222;
     margin: 0;
   }
@@ -237,7 +241,7 @@ h1 {
     vertical-align: -1px;
   }
 
-.type-filter .no-data {
+.type-filter .separated {
   border-left: 1px solid #ccc;
   padding-left: 28px;
 }
@@ -541,6 +545,7 @@ td.sorted {
   position: relative;
   margin-right: 28px;
   margin-bottom: 1px;
+  box-shadow: inset -1px 0 0 #e2e2e2;
 }
 
 .suppressed {
