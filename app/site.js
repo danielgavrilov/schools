@@ -14,7 +14,7 @@ var preload = {
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, './views'));
 
-app.get('/:action?', function(req, res) {
+app.get('/', function(req, res) {
   res.render('index.ejs', {
     YEAR: config.YEAR,
     preload: preload

@@ -98,7 +98,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('cleanmap', 'Change double backslash to forward slash (Windows bug).', function() {
+  grunt.registerTask('cleanmap', 'Replace double backslash with forward slash (Windows bug).', function() {
     var path = 'public/build/app.map';
     var content = grunt.file.read(path);
     content = content.replace(/\\{2}/g,'/');

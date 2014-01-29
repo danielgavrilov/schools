@@ -11,27 +11,24 @@ app.views.search = Backbone.View.extend({
     'input': '_onInput',
     'submit': '_onSubmit',
     'click .use-location': function(event) {
-      this.query("");
+      this._update();
       this.byCurrentLocation();
       event.preventDefault();
     }
   },
   query: function(query) {
-    this._update(query);
-    var query = query.trim();
     if (rePostcode.test(query)) this.byPostcode(query);
-    else if (!reLikePostcode.test(query)) this.byName(query);
+    else if (query.length >= 3 && !reLikePostcode.test(query)) this.byName(query);
   },
   byName: function(query) {
+    this._update(query);
     var searchPattern = query.split(/\s/).join('.+');
     var re = new RegExp(searchPattern, 'i');
     var names = app.preload.schoolnames;
     var urns = [];
-    if (query.length !== 0) {
-      if (query.length < 3) return;
+    if (query.length > 0) {
       for (var urn in names) {
-        var name = names[urn];
-        if (re.test(name)) urns.push(urn);
+        if (re.test(names[urn])) urns.push(urn);
         if (urns.length >= 20) break;
       }
     }
@@ -40,7 +37,7 @@ app.views.search = Backbone.View.extend({
     app.schools.distanceFrom();
   },
   byPostcode: function(postcode) {
-
+    this._update(postcode);
   },
   byLocation: function(location) {
     app.get.byLocation(location, function(err, schools, resp) {
@@ -78,11 +75,11 @@ app.views.search = Backbone.View.extend({
   },
   _update: function(text) {
     var value = this.$input.val();
-    var path = (text !== '') ? '?q='+text : '';
+    var path = text ? '?q='+text : '';
     if (text !== value) this.$input.val(text);
     this._updatePath(path);
   },
   _updatePath: _.debounce(function(path) {
     app.router.navigate(path, {replace: true});
-  }, 1000)
+  }, 500)
 });
