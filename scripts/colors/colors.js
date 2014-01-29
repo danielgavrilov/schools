@@ -15,11 +15,6 @@ module.exports = [
   light: "#84dc9f"
 },
 {
-  name: "yellow",
-  dark: "#e9c900",
-  light: "#f4e45f"
-},
-{
   name: "orange",
   dark: "#c76b19",
   light: "#e3b58c"

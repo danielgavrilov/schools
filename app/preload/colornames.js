@@ -1,1 +1,1 @@
-["blue","green","yellow","orange","violet","brown"]
+["blue","green","orange","violet","brown"]

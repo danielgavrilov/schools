@@ -11,12 +11,6 @@
 .green.focus .a-c,
 .green .a-c { background-color: #84dc9f; }
 
-.yellow { border-color: #e9c900 !important; }
-.yellow.focus .a-a,
-.yellow .a-a { background-color: #e9c900; }
-.yellow.focus .a-c,
-.yellow .a-c { background-color: #f4e45f; }
-
 .orange { border-color: #c76b19 !important; }
 .orange.focus .a-a,
 .orange .a-a { background-color: #c76b19; }
