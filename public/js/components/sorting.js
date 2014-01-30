@@ -16,11 +16,17 @@ app.views.sorting = Backbone.View.extend({
         var subjectnames = app.subjects.selected().map(function(model) { return model.get('name'); });
         var scores = _.compact(subjectnames.map(function(name) { return model.getSubject(name); }));
         scores.forEach(function(subject) {
-          score += 1e6;
-          if (subject['A']) {
-            score += 1e3 * (subject['A*'] + subject['A']) / subject['total'];
-            score += 1e1 * (subject['B'] + subject['C']) / subject['total'];
-            score -= subject['NR'];
+          // Try to suppress the urge of finding any logic behind this.
+          var total = subject['total'];
+          if (total > 0) {
+            if (total > 5) score += 1e9;
+            else score += 1e7;
+            if (subject['A'] != null) {
+              score += 1e5 * (subject['A*'] + subject['A']) / total;
+              score += 1e3 * (subject['B'] + subject['C']) / total;
+              score += 1e1 * (subject['D'] + subject['E']) / total;
+              score -= 1e1 * (subject['NR']) / total;
+            }
           }
         });
         return score;
