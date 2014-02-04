@@ -2,11 +2,11 @@
   "name": "schools",
   "description": "",
   "version": "0.0.1",
-  "homepage": "http://gavrilov.co.uk/schools",
+  "homepage": "http://alevels.herokuapp.com",
   "author": "Daniel Gavrilov (http://gavrilov.co.uk)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielgavrilov/Schools.git"
+    "url": "https://github.com/danielgavrilov/schools.git"
   },
   "engines": {
     "node": "0.10.x"
