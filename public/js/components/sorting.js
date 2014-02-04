@@ -71,7 +71,7 @@ app.views.sorting = Backbone.View.extend({
         app.compare.comparator = app.results.comparator = fn;
         app.compare.sort();
         app.results.sort();
-        app.state.set('sort', key);
+        app.state.set('sort', key+':'+order);
       }
     }
   },

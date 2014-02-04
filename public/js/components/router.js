@@ -22,7 +22,12 @@ app.routers.main = Backbone.Router.extend({
       app.search.byLocation([params.lng, params.lat]);
     } 
     // sort
-    if (params.sort) app.schools.sorting.sort(params.sort);
+    if (params.sort) {
+      var sort = params.sort.split(':');
+      var key = sort[0];
+      var order = sort[1];
+      app.schools.sorting.sort(key, order); 
+    }
     // compare
     if (params.compare) app.compare.addURNs(params.compare);
     // exlude (filter)
