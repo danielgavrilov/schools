@@ -1,12 +1,12 @@
 app.views.filters = Backbone.View.extend({
   initialize: function() {
     var self = this;
-    this.filterElems = {};
+    this._filterElems = {};
     this.$el.find('.filter').each(function(i, elem) {
       var $elem = $(elem)
       var name = $elem.data('filter');
       if (name in self.filters) {
-        self.filterElems[name] = elem;
+        self._filterElems[name] = elem;
       }
     });
   },
@@ -24,7 +24,7 @@ app.views.filters = Backbone.View.extend({
   },
   exclude: function(name) {
     var filter = this.filters[name];
-    var elem = this.filterElems[name];
+    var elem = this._filterElems[name];
     if (filter) app.results.addFilter(filter);
     if (elem) {
       elem.checked = (name == 'single-sex') ? true : false;
@@ -32,7 +32,7 @@ app.views.filters = Backbone.View.extend({
   },
   include: function(name) {
     var filter = this.filters[name];
-    var elem = this.filterElems[name];
+    var elem = this._filterElems[name];
     if (filter) app.results.removeFilter(filter);
     if (elem) {
       elem.checked = (name == 'single-sex') ? false : true;

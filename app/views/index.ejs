@@ -7,10 +7,7 @@
   <title>Find and compare A-level schools</title>
 
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900">
-  <link rel="stylesheet" href="/css/normalize.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/narrow.css">
-  <link rel="stylesheet" href="/css/colors.css">
+  <link rel="stylesheet" href="/build/app.css">
 </head>
 
 <body>
@@ -18,6 +15,25 @@
   <header>
     <div class="inner">
       <h1>Find and compare A-level schools</h1>
+      <form class="search-form" method="get" action="/">
+        <button type="submit" class="find-schools">Find schools</button>
+        <div class="wrapper">
+          <input type="search" class="search-input" name="q" placeholder="Postcode or school name">
+          <button class="use-location">Use my location</button>
+        </div>
+        <section class="type-filter">
+          <h2>Show</h2>
+          <label><input type="checkbox" class="filter" data-filter="independent" checked> Independent</label>
+          <label><input type="checkbox" class="filter" data-filter="state-funded" checked> State-funded</label>
+          <label><input type="checkbox" class="filter" data-filter="special" checked>
+            Special
+            <span class="help tooltip">
+              ?<p class="message wide">Schools for students with special needs.</p>
+            </span>
+          </label>
+          <label class="separated"><input type="checkbox" class="filter" data-filter="single-sex"> Exclude single-sex</label>
+        </section>
+      </form>
     </div>
   </header>
 
@@ -26,7 +42,10 @@
       <h2>
         Subjects
         <span class="help tooltip">
-          ?<p class="message wider">Number in (brackets): number of schools displayed on the list that do the subject.</p>
+          ?<div class="message wider">
+            <strong>Only popular subjects are shown.</strong>
+            <hr>Number in <strong>(brackets)</strong>: number of schools displayed on the list that did the subject.
+          </div>
         </span>
         <form>
           <input class="search-subjects" type="search" placeholder="Find a subject">
@@ -36,28 +55,8 @@
     </section>
 
     <section class="main">
-      <form class="search-form" method="get" action="/">
-        <button type="submit" class="find-schools">Find schools</button>
-        <div class="wrapper">
-          <input type="search" class="search-input" name="q" placeholder="School name or full postcode">
-          <button class="use-location">Use my location</button>
-        </div>
-      </form>
 
-      <section class="type-filter">
-        <h2>Search for</h2>
-        <label><input type="checkbox" class="filter" data-filter="independent" checked> Independent schools</label>
-        <label><input type="checkbox" class="filter" data-filter="state-funded" checked> State-funded schools</label>
-        <label><input type="checkbox" class="filter" data-filter="special" checked>
-          Special schools
-          <span class="help tooltip">
-            ?<p class="message wider">Schools for students with special needs.</p>
-          </span>
-        </label>
-        <label class="separated"><input type="checkbox" class="filter" data-filter="single-sex"> Exclude single-sex schools</label>
-      </section>
-
-      <section class="schools">
+      <section class="schools no-distance">
         <table>
           <thead>
             <tr>
@@ -78,18 +77,20 @@
           </thead>
           <tbody class="guide">
             <tr>
-              <td class="g-name">A guide for reading the table</td>
+              <td class="g-name">
+                <h3>How to read<br>the table</h3>
+              </td>
               <td class="g-performance">
-                <h3>Number of students who achieved&hellip;</h3>
+                <span>Number of students who achieved&hellip;</span>
                 <div class="subject">
                   <div class="a-c-label">A*-C</div>
                   <div class="a-a-label">A*-A</div>
                   <div class="no-result-label">U/No result</div>
                 </div>
+                Results are suppressed (not published) for subjects with less than 6 entries.
               </td>
               <td colspan=2>Mouse over number for list of subjects</td>
-              <td></td>
-              <td></td>
+              <td colspan=2>Point scores are calculated using...</td>
               <td></td>
               <td class="as-distance"></td>
               <td></td>
@@ -105,7 +106,7 @@
 
 
     <footer class="clearfix">
-      <p class="left">Built for students, by a <a href="http://gavrilov.co.uk">student</a>.</p>
+      <p class="left">Made for students, by a <a href="http://gavrilov.co.uk">student</a>.</p>
       <p class="right"><a href="#">Learn more about this project</a></p>
     </footer>
   </div>

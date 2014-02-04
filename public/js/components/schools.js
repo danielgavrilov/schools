@@ -227,19 +227,19 @@ app.collections.cache = Backbone.Collection.extend({
 app.collections.schools = Backbone.Collection.extend({
   model: app.models.school,
   initialize: function() {
-    _.bindAll(this, '_sortDebounce');
-    this.on('loaded', this._sortDebounce);
-    this.listenTo(app.subjects, 'select deselect', this._sortDebounce);
+    var self = this;
+    var debouncedSort = _.debounce(function() {
+      if (self.comparator) self.sort();
+    }, 10);
+    this.on('loaded', debouncedSort);
+    this.listenTo(app.subjects, 'select deselect', debouncedSort);
   },
   addURNs: function(urns) {
     return this.add(app.cache.getByURNs(urns));
   },
   resetURNs: function(urns) {
     return this.reset(app.cache.getByURNs(urns));
-  },
-  _sortDebounce: _.debounce(function() {
-    if (this.comparator) this.sort();
-  }, 10)
+  }
 });
 
 app.collections.results = app.collections.schools.extend({
@@ -281,10 +281,8 @@ app.views.schools = Backbone.View.extend({
     this.$results = options.$results;
     this.listenTo(this.compare, 'reset', this._removeViews);
     this.listenTo(this.results, 'reset', this._removeViews);
-    this.listenTo(this.compare, 'add remove reset update', this._checkIfEmpty);
-    this.listenTo(this.results, 'add remove reset update', this._checkIfEmpty);
-    this.listenTo(this.compare, 'add remove reset update sort', this._updateCompare);
-    this.listenTo(this.results, 'add remove reset update sort', this._updateResults);
+    this.listenTo(this.compare, 'add remove reset sort', this._updateCompare);
+    this.listenTo(this.results, 'add remove reset sort update loaded', this._updateResults);
     this.listenTo(this.compare, 'add remove reset update loaded', this._updateSubjectCounts);
     this.listenTo(this.results, 'add remove reset update loaded', this._updateSubjectCounts);
     this.results.addFilter(function(model) {

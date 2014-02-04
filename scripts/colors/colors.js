@@ -5,28 +5,28 @@
 
 module.exports = [
 {
-  name: "blue",
-  dark: "#2d99e5",
-  light: "#96ccf2"
+  name:  "blue",
+  dark:  "hsl(205, 78%, 54%)",
+  light: "hsl(205, 68%, 78%)"
 },
 {
-  name: "green",
-  dark: "#09b93f",
-  light: "#84dc9f"
+  name:  "green",
+  dark:  "hsl(138, 83%, 38%)",
+  light: "hsl(138, 53%, 70%)"
 },
 {
-  name: "orange",
-  dark: "#c76b19",
-  light: "#e3b58c"
+  name:  "orange",
+  dark:  "hsl(28, 78%, 44%)",
+  light: "hsl(28, 68%, 74%)"
 },
 {
-  name: "violet",
-  dark: "#8f4bdd",
-  light: "#c7a5ee"
+  name:  "violet",
+  dark:  "hsl(268, 68%, 58%)",
+  light: "hsl(268, 58%, 80%)"
 },
 {
-  name: "brown",
-  dark: "#8c564b",
-  light: "#c49c94"
+  name:  "brown",
+  dark:  "hsl(10, 30%, 42%)",
+  light: "hsl(10, 20%, 68%)"
 }
 ];

@@ -39,6 +39,7 @@ $(function() {
     el: $('.type-filter')
   });
   
+  app.state = new app.models.state;
   app.router = new app.routers.main;
 
   Backbone.history.start({pushState: true});

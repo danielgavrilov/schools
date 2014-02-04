@@ -9,8 +9,6 @@ body {
 
 /* apply a natural box layout model to all elements */
 *, *:before, *:after {
-  -moz-box-sizing: border-box; 
-  -webkit-box-sizing: border-box; 
   box-sizing: border-box;
 }
 
@@ -30,19 +28,16 @@ a {
 */
 
 header {
-  padding: 25px 15px 20px;
+  padding: 35px 15px 10px;
   margin-bottom: 28px;
-  background: #858585;
-  border-bottom: 2px solid #666;
+  /* border-bottom: 2px solid #666; */
 }
 
 h1 {
-  font-size: 28px;
-  margin: 0;
-  font-weight: 600;
+  font-size: 30px;
+  margin: 0 0 35px;
+  font-weight: 400;
   padding: 0;
-  color: white;
-  text-shadow: 0 -2px 0 rgba(0,0,0,.25);
   text-align: center;
 }
 
@@ -51,7 +46,8 @@ h1 {
  */
 
 .search-form {
-    margin: 0;
+    margin: 0 auto;
+    width: 590px;
 }
 
   .search-form .wrapper {
@@ -65,9 +61,9 @@ h1 {
     line-height: 24px;
     border: 1px solid #ccc;
     padding: 7px 10px;
-  
     display: block;
     width: 100%;
+    transition: 100ms border-color linear;
 }
     .search-input:focus {
       border-color: #007cef;
@@ -107,15 +103,7 @@ h1 {
     border-bottom-color: #0065c2;
     position: relative;
     z-index: 10;
-
-    background: #068cf1;
-    background: -moz-linear-gradient(top,  #068cf1 0%, #0473ed 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#068cf1), color-stop(100%,#0473ed));
-    background: -webkit-linear-gradient(top,  #068cf1 0%,#0473ed 100%);
-    background: -o-linear-gradient(top,  #068cf1 0%,#0473ed 100%);
-    background: -ms-linear-gradient(top,  #068cf1 0%,#0473ed 100%);
-    background: linear-gradient(to bottom,  #068cf1 0%,#0473ed 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#068cf1', endColorstr='#0473ed',GradientType=0 );
+    background: linear-gradient(to bottom, #068cf1 0%, #0473ed 100%);
   }
 
 
@@ -199,11 +187,12 @@ h1 {
     background-position: 5px center;
     background-repeat: no-repeat;
     border: none;
-    border-bottom: 1px dotted #bbb;
+    border-bottom: 1px dotted #c6c6c6;
     outline: none;
     padding: 3px 0 3px 23px;
     width: 100%;
     margin: 10px 0 0;
+    transition: 100ms border-color linear;
   }
   .search-subjects:focus {
     border-bottom-color: #777;
@@ -214,12 +203,10 @@ h1 {
  */
 
 .type-filter {
-  background-color: #f1f1f1;
   text-align: center;
-  padding: 11px 15px 10px;
+  padding: 12px;
   margin: 0;
   border-bottom: 0;
-  margin-bottom: 20px;
 }
 
   .type-filter h2 {
@@ -227,15 +214,17 @@ h1 {
     font-size: 16px;
     font-weight: 700;
     color: #222;
-    margin: 0;
-  }
+    margin: 0 15px 0 0;
+  
+}
 
   .type-filter label {
-    margin: 0 1.1%;
+    margin: 0 1.3%;
     display: inline-block;
     padding: 2px;
     font-size: 15px;
     cursor: pointer;
+    vertical-align: text-top;
 }
 
   .type-filter input[type=checkbox] {
@@ -243,8 +232,8 @@ h1 {
   }
 
 .type-filter .separated {
-  border-left: 1px solid #ccc;
-  padding-left: 2.6%;
+  border-left: 1px solid #d1d1d1;
+  padding-left: 3.1%;
 }
 
 /* =============================================================================
@@ -254,9 +243,6 @@ h1 {
 
 .main {
   margin-left: 240px;
-}
-
-.schools {
 }
 
   .schools table {
@@ -282,6 +268,7 @@ h1 {
   padding: 5px 7px;
   vertical-align: bottom;
   position: relative;
+  cursor: default;
 }
   .schools th.first {
     border-left: none;
@@ -308,8 +295,7 @@ h1 {
 
 th.sorted-asc,
 th.sorted-desc {
-  background-color: #888;
-  cursor: pointer;
+  background-color: #888 !important;
 }
 
 th.sorted-asc:after,
@@ -328,14 +314,15 @@ th.sorted-asc:after {
   border-width: 0 5px 5px 5px;
 }
 
-.sortable {
+th.sortable {
   cursor: pointer;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  /* prevent text selection on double click */
   user-select: none;
+  transition: 100ms background-color linear;
 }
+  .sortable:hover {
+    background-color: #a0a0a0;
+  }
 
 /* -----------------------------------------------------------------------------
  * Guide
@@ -343,24 +330,30 @@ th.sorted-asc:after {
 
 .guide {
   font-size: 14px;
-  background-color: #eee;
+  background-color: #f3f3f3;
 }
 
 tbody.guide td {
-  padding: 0;
+  padding: 10px;
   border-left: none;
+  vertical-align: middle;
 }
 
 .guide h3 {
-  font-size: 13px;
-  font-weight: normal;
-  color: #666;
+  font-size: 16px;
+  font-weight: 700;
   margin: 0;
+  padding: 5px 0 5px 10px;
+}
+
+.guide .g-performance {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .guide .subject {
-  height: 17px;
-  line-height: 17px;
+  height: 20px;
+  line-height: 20px;
   margin-bottom: 0;
 }
 
@@ -370,19 +363,19 @@ tbody.guide td {
   font-size: 14px;
   font-weight: 700;
   text-transform: none;
-  padding: 0 3px;
+  padding: 0 5px;
   text-align: right;
 }
 
 .guide .a-a-label {
   left: 0;
   width: 28%;
-  background-color: #BDBDBD;
+  background-color: #ADADAD;
 }
 .guide .a-c-label {
   left: 28%;
   width: 28%;
-  background-color: #dadada;
+  background-color: #D1D1D1;
 }
 .guide .no-result-label {
   font-size: 13px;
@@ -393,26 +386,19 @@ tbody.guide td {
 }
 
 /* -----------------------------------------------------------------------------
- * Schools (table rows)
+ * School (table row)
  */
 
 tbody {
-  border-bottom: 2px solid #ccc;
-}
-
-.schools {}
-
-.schools.empty {
-  display: none;
+  border-bottom: 1px solid #c4c4c4;
 }
 
 .school {
   height: 52px;
 }
-
-.school:nth-child(even) {
-  background-color: rgba(0,0,0,.02);
-}
+  .school:hover {
+    background-color: rgba(0,0,0,.025);
+  }
 
 .schools td {
   padding: 5px 7px;
@@ -546,9 +532,10 @@ td.sorted {
   height: 15px;
   line-height: 15px;
   position: relative;
-  margin-right: 28px;
+  margin-right: 29px;
   margin-bottom: 1px;
-  box-shadow: inset -1px 0 0 #e2e2e2;
+  background-color: rgba(0,0,0,.02);
+  cursor: default;
 }
 
 .suppressed {
@@ -583,12 +570,14 @@ td.sorted {
   position: relative;
   width: 100%;
   display: block;
+  z-index: 50;
 }
 
 .subject span {
   font-size: 12px;
   font-weight: 700;
   position: absolute;
+  color: #111;
   left: 100%;
   z-index: 50;
   padding: 0 3px;
@@ -629,7 +618,7 @@ td.sorted {
 .subject .no-result,
 .subject.focus .no-result {
   right: 0;
-  background-color: #e2e2e2;
+  background-color: #d3d3d3;
 }
 
 .subject .entries,
@@ -668,16 +657,16 @@ td.sorted {
 }
 
 section.grayscale .a-a {
-  background-color: #cfcfcf;
+  background-color: rgba(0,0,0,.09);
 }
 section.grayscale .a-c {
-  background: #e7e7e7;
+  background: rgba(0,0,0,.05);
 }
 section.grayscale .no-result {
-  background: #f2f2f2;
+  background: rgba(0,0,0,.03);
 }
 section.grayscale .entries {
-  color: #c9c9c9;
+  color: #ccc;
 }
 
 /* -----------------------------------------------------------------------------
@@ -696,7 +685,6 @@ section.grayscale .entries {
   background-color: rgb(245, 245, 245);
   border: 2px solid #C2C2C2;
   border-bottom-width: 6px;
-  border-top-width: 3px;
 }
 
 .compare td.name {
@@ -833,14 +821,17 @@ footer {
   display: none;
   padding: 5px;
   z-index: 9999;
+  pointer-events: none;
 }
-  .message.wider {
+  .message.wide {
     width: 150px;
     margin-left: -75px;
     padding: 7px 10px;
   }
-  .message strong {
-    font-weight: 600;
+  .message.wider {
+    width: 160px;
+    margin-left: -80px;
+    padding: 10px 12px;
   }
 
 .tooltip .message:after {
@@ -856,6 +847,20 @@ footer {
 }
 .tooltip:hover .message {
   display: block;
+}
+
+.message strong {
+  font-weight: 600;
+}
+
+.tooltip hr {
+  width: 40px;
+  border-color: rgba(255,255,255,.1);
+  margin: 6px auto;
+}
+
+.tooltip small {
+  font-size: 85.7%;
 }
 
 /* -----------------------------------------------------------------------------
@@ -874,6 +879,7 @@ footer {
   display: inline-block;
   vertical-align: 1px;
   cursor: help;
+  text-align: center;
 }
   .help:hover {
     background-color: rgba(0,0,0,.6);

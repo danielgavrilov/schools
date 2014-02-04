@@ -128,6 +128,9 @@ app.collections.subjects = Backbone.Collection.extend({
   getByName: function(name) {
     return this.findWhere({name: name});
   },
+  selectByName: function(name) {
+    this.getByName(name).select();
+  },
   selected: function() {
     var selected = this.where({selected: true});
     selected = _.sortBy(selected, function(model) {

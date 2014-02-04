@@ -18,7 +18,9 @@ module.exports = function(grunt) {
         'public/js/components/*.js',
         'public/js/main.js',
       ],
-      templates: ['public/js/templates/*.tmpl'],
+      templates: [
+        'public/js/templates/*.tmpl'
+      ],
     },
 
     jst: {
@@ -39,8 +41,30 @@ module.exports = function(grunt) {
       }
     },
 
+    sass: {
+      build: {
+        options: {
+          sourcemap: true,
+          style: 'compressed'
+        },
+        files: {
+          'public/build/app.css': 'public/sass/index.scss'
+        }
+      }
+    },
+
+    autoprefixer: {
+      options: {
+        map: 'public/build/',
+      },
+      build: {
+        src: 'public/build/app.css',
+        dest: 'public/build/app.css'
+      }
+    },
+
     uglify: {
-      dest: {
+      build: {
         options: {
           mangle: false,
           compress: true,
@@ -55,6 +79,10 @@ module.exports = function(grunt) {
     },
 
     watch: {
+      sass: {
+        files: 'public/sass/*.scss',
+        tasks: ['css']
+      },
       js: {
         files: '<%= files.js %>',
         tasks: ['compress']
@@ -76,7 +104,7 @@ module.exports = function(grunt) {
     var template = grunt.file.read('scripts/colors/colors.tmpl');
     var colorNames = colors.map(function(color) { return color.name; });
     var css = grunt.template.process(template, {data: {colors: colors}});
-    grunt.file.write('public/css/colors.css', css);
+    grunt.file.write('public/sass/colors.scss', css);
     grunt.file.write('app/preload/colornames.js', JSON.stringify(colorNames));
   });
 
@@ -105,12 +133,15 @@ module.exports = function(grunt) {
     grunt.file.write(path, content);
   });
 
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-jst');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
+  grunt.registerTask('css', ['sass', 'autoprefixer']);
   grunt.registerTask('generate', ['colors', 'schools', 'subjects']);
   grunt.registerTask('compress', ['uglify', 'cleanmap']);
-  grunt.registerTask('default', ['generate', 'jst', 'compress']);
+  grunt.registerTask('default', ['generate', 'css', 'jst', 'compress']);
 
 };
