@@ -231,7 +231,7 @@ app.collections.schools = Backbone.Collection.extend({
     var debouncedSort = _.debounce(function() {
       if (self.comparator) self.sort();
     }, 10);
-    this.on('loaded', debouncedSort);
+    this.on('change', debouncedSort);
     this.listenTo(app.subjects, 'select deselect', debouncedSort);
   },
   addURNs: function(urns) {
