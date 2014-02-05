@@ -79,17 +79,17 @@ module.exports = function(grunt) {
     },
 
     watch: {
+      templates: {
+        files: '<%= files.templates %>',
+        tasks: ['jst']
+      },
       sass: {
         files: 'public/sass/*.scss',
         tasks: ['css']
       },
       js: {
         files: '<%= files.js %>',
-        tasks: ['compress']
-      },
-      templates: {
-        files: '<%= files.templates %>',
-        tasks: ['jst']
+        tasks: ['js']
       },
       colors: {
         files: 'scripts/colors/*',
@@ -140,8 +140,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('css', ['sass', 'autoprefixer']);
+  grunt.registerTask('js', ['uglify', 'cleanmap']);
   grunt.registerTask('generate', ['colors', 'schools', 'subjects']);
-  grunt.registerTask('compress', ['uglify', 'cleanmap']);
-  grunt.registerTask('default', ['generate', 'css', 'jst', 'compress']);
+  grunt.registerTask('default', ['generate', 'css', 'jst', 'js']);
 
 };
