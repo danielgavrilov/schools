@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         'public/js/vendor/backbone.queryparams-1.1-shim.js',
         'public/js/vendor/backbone.queryparams.js',
         'public/js/templates.js',
-        'public/js/components/*.js',
+        'public/js/modules/*.js',
         'public/js/main.js',
       ],
       templates: [
