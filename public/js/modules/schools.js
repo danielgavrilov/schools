@@ -48,13 +48,13 @@ app.views.school = Backbone.View.extend({
   template: app.templates.school,
   loadingTemplate: app.templates.schoolLoading,
   initialize: function() {
-    this.listenTo(this.model, 'change:distance', this.updateDistance);
     if (this.model.loaded()) {
       this.render();
     } else {
       this.renderLoading();
       this.listenTo(this.model, 'loaded', this.render);
     }
+    this.listenTo(this.model, 'change:distance', this.updateDistance);
   },
   events: {
     'click .add-compare': '_addToCompare',
@@ -334,7 +334,7 @@ app.views.schools = Backbone.View.extend({
     var elems = [];
     // avoiding $(el).html() as it detaches events
     this.$compare[0].innerHTML = '';
-    this.compare.toArray().forEach(function(model) {
+    this.compare.visible().forEach(function(model) {
       if (!model.view) model.view = new app.views.school({model: model});
       elems.push(model.view.el);
     });
