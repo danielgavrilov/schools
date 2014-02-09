@@ -119,12 +119,16 @@ app.views.performance = Backbone.View.extend({
     }
   },
   render: function() {
-    this.el.innerHTML = '';
+    var self = this;
     var selected = app.subjects.selected();
+    this.el.innerHTML = '';
     if (selected.length) {
       var elems = selected.map(this.generateSubject);
       var fragment = app.utils.arrayToFragment(elems);
       this.$el.append(fragment);
+      // deferring _fixOverlaps significantly increases
+      // perceived performance.
+      _.defer(function() { self._fixOverlaps(elems); });
     } else {
       this.$el.html('<p>No subjects selected.</p>');
     }
@@ -138,9 +142,6 @@ app.views.performance = Backbone.View.extend({
     var html = this.template(data);
     var element = app.utils.elementFromHTML(html);
     this.elements[name] = element;
-    _.defer(function() {
-      self._fixOverlaps(element);
-    });
     return element;
   },
   _prepareData: function(subject) {
@@ -167,20 +168,21 @@ app.views.performance = Backbone.View.extend({
     }
     return subject;
   },
-  _fixOverlaps: function(elem) {
-    var $elem = $(elem);
-    if (!$elem.hasClass('no-entries') && !$elem.hasClass('suppressed')) {
-      var $AtoA = $elem.find('.a-a span');
-      var $AtoC = $elem.find('.a-c span');
-      var $NR = $elem.find('.no-result span');
-      var $entries = $elem.find('.entries');
-      var overlap = app.utils.overlap;
-      if (overlap($AtoA[0], $AtoC[0])) $AtoA.addClass('swap');
-      if (overlap($AtoC[0], $entries[0]) || overlap($AtoC[0], $NR[0])) $AtoC.addClass('swap');
-      if (overlap($AtoC[0], $NR[0])) $NR.hide();
-      if (overlap($AtoA[0], $AtoC[0])) $AtoA.addClass('swap');
-    }
-    return elem;
+  _fixOverlaps: function(elems) {
+    elems.forEach(function(elem) {
+      var $elem = $(elem);
+      if (!$elem.hasClass('no-entries') && !$elem.hasClass('suppressed')) {
+        var $AtoA = $elem.find('.a-a span');
+        var $AtoC = $elem.find('.a-c span');
+        var $NR = $elem.find('.no-result span');
+        var $entries = $elem.find('.entries');
+        var overlap = app.utils.overlap;
+        if (overlap($AtoA[0], $AtoC[0])) $AtoA.addClass('swap');
+        if (overlap($AtoC[0], $entries[0]) || overlap($AtoC[0], $NR[0])) $AtoC.addClass('swap');
+        if (overlap($AtoC[0], $NR[0])) $NR.hide();
+        if (overlap($AtoA[0], $AtoC[0])) $AtoA.addClass('swap');
+      }
+    });
   },
   _onFocus: function(name) {
     this.elements[name].classList.add('focus');
@@ -303,22 +305,27 @@ app.views.schools = Backbone.View.extend({
       return !self.compare.contains(model);
     });
     this.listenTo(app.subjects, 'focus', function() {
-      self.$el.addClass('grayscale');
+      self.el.classList.add('grayscale');
     });
     this.listenTo(app.subjects, 'unfocus', function() {
-      self.$el.removeClass('grayscale');
+      self.el.classList.remove('grayscale');
     });
   },
   // adds loading style
-  loading: function() {},
+  loadingStart: function() {
+    this.$results.addClass('loading');
+  },
+  loadingEnd: function() {
+    this.$results.removeClass('loading');
+  },
   models: function() {
     return _.union(this.compare.models, this.results.models);
   },
   showDistance: function() {
-    this.$el.removeClass('no-distance');
+    this.el.classList.remove('no-distance');
   },
   hideDistance: function() {
-    this.$el.addClass('no-distance');
+    this.el.classList.add('no-distance');
   },
   isEmpty: function() {
     return this.compare.length + this.results.visible().length === 0;

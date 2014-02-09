@@ -4,12 +4,14 @@ var reLikePostcode = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?(\d([A-Z]{1,2})?)?$/i;
 app.views.search = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, '_handleResponse', '_handleResponseError');
+    this._previousQuery = '';
+    this._debouncedQuery = _.debounce(this.query, 200);
     this.$input = this.$el.find('.search-input');
     this.$useLocation = this.$el.find('.use-location');
   },
   events: {
     'input': function(event) {
-      this.query(this.$input.val());
+      this._debouncedQuery(this.$input.val());
       event.preventDefault();
     },
     'submit': function(event) {
@@ -22,9 +24,11 @@ app.views.search = Backbone.View.extend({
     }
   },
   query: function(query) {
+    if (query === this._previousQuery) return;
     var len = query.length;
     if (rePostcode.test(query)) this.byPostcode(query);
     else if (len === 0 || (len >= 3 && !reLikePostcode.test(query))) this.byName(query);
+    this._previousQuery = query;
   },
   byName: function(query) {
     this._updateQuery(query);
@@ -45,6 +49,7 @@ app.views.search = Backbone.View.extend({
   byPostcode: function(postcode) {
     var self = this;
     this._updateQuery(postcode);
+    app.schools.loadingStart();
     app.get.postcode(postcode, function(err, location) {
       if (!err) self.byLocation(location, {postcode: true});
     });
@@ -52,17 +57,19 @@ app.views.search = Backbone.View.extend({
   byLocation: function(location, options) {
     var self = this;
     options = options || {};
+    app.schools.loadingStart();
     app.get.byLocation(location, function(err, schools, resp) {
       var urns = _.pluck(schools, '_id');
       var location = resp.near && resp.near.location;
       app.cache.add(schools);
       app.results.resetURNs(urns);
       app.schools.showDistance();
+      app.schools.loadingEnd();
       app.state.set({
         lng: location[0],
         lat: location[1]
       });
-      if (!options.postcode) self._updateQuery();
+      if (!options.postcode) self._updateQuery('');
     });
   },
   byCurrentLocation: function(event) {

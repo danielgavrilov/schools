@@ -743,6 +743,22 @@ section.grayscale .entries {
   margin: 0;
 }
 
+/* -----------------------------------------------------------------------------
+ * Loading
+ */
+
+tbody.loading {
+  opacity: 0.4;
+}
+
+td.loading {
+  text-align: center;
+}
+
+td.loading:after {
+  content: 'Loading...';
+}
+
 
 /* =============================================================================
  | FOOTER
