@@ -81,7 +81,7 @@ app.views.search = Backbone.View.extend({
     // TIMEOUT (3) if the network is up but it takes too long to calculate the user’s position. How long is “too long”? I’ll show you how to define that in the next section.
   },
   _updateQuery: function(value) {
-    this.$input.val(value);
+    if (value != this.$input.val()) this.$input.val(value);
     app.state.set({
       q: value
     });
