@@ -1,6 +1,6 @@
 var mongojs = require('mongojs');
 var express = require('express');
-var db = mongojs(process.env["DATABASE_URL"], ['schools']);
+var db = mongojs(process.env.DATABASE_URL, ['schools']);
 var schools = db.schools;
 var app = module.exports = express();
 
@@ -21,7 +21,7 @@ function positionFromURN(req, res, next) {
   if (!req.query.urn) return next();
   var urn = validURN(req.query.urn);
   if (!urn) return res.json(400, { 
-    message: "Invalid URN: must be a 6-digit integer."
+    error: "Invalid URN: must be a 6-digit integer."
   });
   schools.find({_id: urn}, {location: 1}, {limit: 1}, function(err, results) {
     if (err) return next(err);
@@ -32,7 +32,7 @@ function positionFromURN(req, res, next) {
       next();
     } catch(e) {
       res.json(404, { 
-        message: "Location unavailable for the specified school."
+        error: "Location unavailable for the specified school."
       });
     }
   });
@@ -43,7 +43,7 @@ function parseLngLat(req, res, next) {
   var lng = parseFloat(req.query.lng);
   var lat = parseFloat(req.query.lat);
   if (isNaN(lng) || isNaN(lat)) return res.json(400, {
-    message: "Invalid lat/lng coordinates provided."
+    error: "Invalid lat/lng coordinates provided."
   });
   req.lng = lng;
   req.lat = lat;
@@ -66,7 +66,7 @@ app.get('/schools', function(req, res, next) {
 
 app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) {
   if (req.lng === undefined || req.lat === undefined) return res.json(400, {
-    message: "No valid location was provided."
+    error: "No valid location was provided."
   });
   var distance = between(1, distance, 80000);
   var limit = between(1, req.query.limit, 50);
@@ -93,7 +93,14 @@ app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) 
 });
 
 app.get('/', function(req, res, next) {
-  res.json(404, {
-    message: 'Invalid usage.'
+  res.json(200, {
+    message: 'A-level schools API at your service.'
+  });
+});
+
+app.use(function(err, req, res, next) {
+  console.log(err);
+  res.json(500, {
+    error: 'Something went wrong.'
   });
 });
