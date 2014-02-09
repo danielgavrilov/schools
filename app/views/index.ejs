@@ -4,7 +4,7 @@
   <meta name="description" content="Find and compare A-level schools">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <title>Find and compare A-level schools</title>
+  <title>A-level schools</title>
 
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900">
   <link rel="stylesheet" href="/build/app.css">
@@ -14,8 +14,8 @@
 
   <header>
     <div class="inner">
-      <h1>Find and compare A-level schools</h1>
-      <form class="search-form" method="get" action="/">
+      <h1><a href="/">Find and compare A-level schools</a></h1>
+      <form id="search" class="search-form" method="get" action="/">
         <button type="submit" class="find-schools">Find schools</button>
         <div class="wrapper">
           <input type="search" class="search-input" name="q" placeholder="Postcode or school name">
@@ -55,13 +55,12 @@
     </section>
 
     <section class="main">
-
       <section class="schools no-distance">
         <table>
           <thead>
             <tr>
               <th rowspan=2 style="width: 20%" class="first sortable" data-sort="name" data-order="asc">School name</th>
-              <th rowspan=2 style="width: 30%" class="sortable" data-sort="performance">Subject performance</th>
+              <th rowspan=2 style="width: 30%" class="sortable" data-sort="performance">Grades achieved</th>
               <th colspan=2 class="heading">Number of students</th>
               <th colspan=2 class="heading">Average point scores</th>
               <th rowspan=2 class="sortable" data-sort="supertype" data-order="asc">Type</th>
@@ -81,13 +80,13 @@
                 <h3>How to read<br>the table</h3>
               </td>
               <td class="g-performance">
-                <span>Number of students who achieved&hellip;</span>
+                <span>Number of students who achieved</span>
                 <div class="subject">
                   <div class="a-c-label">A*-C</div>
                   <div class="a-a-label">A*-A</div>
-                  <div class="no-result-label">U/No result</div>
+                  <div class="no-result-label">U<small>/No result</small></div>
                 </div>
-                Results are suppressed (not published) for subjects with less than 6 entries.
+                <small>Results suppressed for subjects with less than 6 entries.</small>
               </td>
               <td colspan=2>Mouse over number for list of subjects</td>
               <td colspan=2>Point scores are calculated using...</td>
@@ -99,15 +98,14 @@
           <tbody class="compare"></tbody>
           <tbody class="results"></tbody>
         </table>
-        <div class="based-on">Data from <a href="http://www.education.gov.uk/schools/performance/download_data.html">KS5 Performance Tables 2013</a>.</div>
       </section>
-
     </section>
 
-
     <footer class="clearfix">
-      <p class="left">Made for students, by a <a href="http://gavrilov.co.uk">student</a>.</p>
-      <p class="right"><a href="#">Learn more about this project</a></p>
+      <p class="madeby">Made for students, by a <a href="http://gavrilov.co.uk">student</a>.</p>
+      <p class="databy">
+        Data obtained from the <a href="http://www.education.gov.uk/schools/performance/download_data.html">Department for Education</a>. <br>
+        Project source code available on <a href="http://github.com/danielgavrilov/schools">Github</a>.</p>
     </footer>
   </div>
 
@@ -129,14 +127,19 @@
     app.templates = {};
     app.preload = {};
 
-    // preload
-    <% if (preload.colornames)   { %>app.preload.colornames   = <%- preload.colornames %>; <% } %>
-    <% if (preload.subjectnames) { %>app.preload.subjectnames = <%- preload.subjectnames %>; <% } %>
-    <% if (preload.schoolnames)  { %>app.preload.schoolnames  = <%- preload.schoolnames %>; <% } %>
-
   </script>
 
   <script src="/build/app.js" type="text/javascript"></script>
 
+  <% if (ENV === 'production') { %>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-47905327-1', 'alevels.herokuapp.com');
+    ga('send', 'pageview');
+  </script>
+  <% } %>
 </body>
 </html>

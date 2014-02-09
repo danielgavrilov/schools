@@ -37,16 +37,24 @@ app.get.byLocation = function(location, callback) {
   });
 };
 
-app.get.byPostcode = function(postcode, callback) {
+app.get.postcode = function(postcode, callback) {
+  postcode = postcode.replace(/\s+/g,'').toUpperCase();
   $.ajax({
+    url: 'http://maps.googleapis.com/maps/api/geocode/json',
     dataType: 'json',
-    url: '/api/schools/near',
     data: {
-      postcode: postcode,
-      limit: 20
+      address: postcode,
+      components: 'country:UK',
+      region: 'uk',
+      sensor: 'false'
     },
     success: function(json) {
-      callback(null, json.results, json);
+      try {
+        var location = json.results[0].geometry.location;
+        callback(null, [location.lng, location.lat]);
+      } catch(e) {
+        callback(e);
+      }
     },
     error: onError(callback)
   });

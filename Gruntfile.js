@@ -14,6 +14,7 @@ module.exports = function(grunt) {
         'public/js/vendor/backbone.js',
         'public/js/vendor/backbone.queryparams-1.1-shim.js',
         'public/js/vendor/backbone.queryparams.js',
+        'public/js/preload.js',
         'public/js/templates.js',
         'public/js/modules/*.js',
         'public/js/main.js',
@@ -105,14 +106,14 @@ module.exports = function(grunt) {
     var colorNames = colors.map(function(color) { return color.name; });
     var css = grunt.template.process(template, {data: {colors: colors}});
     grunt.file.write('public/sass/colors.scss', css);
-    grunt.file.write('app/preload/colornames.js', JSON.stringify(colorNames));
+    grunt.file.write('scripts/preload/colornames.js', JSON.stringify(colorNames));
   });
 
   grunt.registerTask('schools', 'Generate schools', function() {
     var done = this.async();
     var schools = require('./scripts/schools');
     schools.getNames(function(names) {
-      grunt.file.write('app/preload/schoolnames.js', JSON.stringify(names));
+      grunt.file.write('scripts/preload/schoolnames.js', JSON.stringify(names));
       done();
     });
   });
@@ -121,7 +122,7 @@ module.exports = function(grunt) {
     var done = this.async();
     var subjects = require('./scripts/subjects');
     subjects.getNames(function(names) {
-      grunt.file.write('app/preload/subjectnames.js', JSON.stringify(names));
+      grunt.file.write('scripts/preload/subjectnames.js', JSON.stringify(names));
       done();
     });
   });
@@ -133,6 +134,17 @@ module.exports = function(grunt) {
     grunt.file.write(path, content);
   });
 
+  grunt.registerTask('preload', 'Generate preload.js', function() {
+    var preload = {
+      colornames: grunt.file.read('scripts/preload/colornames.js'),
+      subjectnames: grunt.file.read('scripts/preload/subjectnames.js'),
+      schoolnames: grunt.file.read('scripts/preload/schoolnames.js')
+    };
+    var template = grunt.file.read('scripts/preload/preload.tmpl');
+    var content = grunt.template.process(template, {data: preload});
+    grunt.file.write('public/js/preload.js', content);
+  });
+
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-jst');
@@ -141,7 +153,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('css', ['sass', 'autoprefixer']);
   grunt.registerTask('js', ['uglify', 'cleanmap']);
-  grunt.registerTask('generate', ['colors', 'schools', 'subjects']);
+  grunt.registerTask('generate', ['colors', 'schools', 'subjects', 'preload']);
   grunt.registerTask('default', ['generate', 'css', 'jst', 'js']);
 
 };

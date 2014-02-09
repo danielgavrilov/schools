@@ -39,7 +39,7 @@ app.routers.main = Backbone.Router.extend({
       app.subjects.selectByName(subject);
     });
   },
-  _encodeState: function() {
+  _serializeState: function() {
     var params = app.state.filtered();
     var props = [];
     for (var prop in params) {
@@ -51,6 +51,6 @@ app.routers.main = Backbone.Router.extend({
     return encoded;
   },
   _navigateFromState: function() {
-    this.navigate(this._encodeState(), {replace: true});
+    this.navigate(this._serializeState(), {replace: true});
   }
 });

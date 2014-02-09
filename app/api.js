@@ -68,7 +68,7 @@ app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) 
   if (req.lng === undefined || req.lat === undefined) return res.json(400, {
     message: "No valid location was provided."
   });
-  var distance = between(1, distance, 30000);
+  var distance = between(1, distance, 80000);
   var limit = between(1, req.query.limit, 50);
   var coords = [req.lng, req.lat];
   schools.find({ 

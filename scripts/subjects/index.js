@@ -1,7 +1,7 @@
 var mongojs = require('mongojs');
 var db = mongojs('ks5', ['schools']);
 var schools = db.schools;
-var config = require('../../config')();
+var config = require('../../config');
 
 var projection = {_id: 0};
 projection['performance.'+config.YEAR+'.results.a-level'] = 1;

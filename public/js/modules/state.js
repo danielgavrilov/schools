@@ -9,8 +9,13 @@ app.models.state = Backbone.Model.extend({
     subjects: [],
   },
   initialize: function() {
+    _.bindAll(this, '_triggerLocation');
+    this.on('change:lat change:lng', this._triggerLocation);
     this.listenTo(app.compare, 'add remove reset', this._setCompare);
     this.listenTo(app.subjects, 'selection', this._setSubjects);
+  },
+  getLocation: function() {
+    return [this.get('lng'), this.get('lat')];
   },
   // Removes properties with values: null, empty strings and empty arrays
   filtered: function() {
@@ -21,6 +26,10 @@ app.models.state = Backbone.Model.extend({
       if (value == null || value === '') continue;
       if (_.isArray(value) && value.length === 0) continue;
       filtered[prop] = value;
+    }
+    if (filtered.q) {
+      delete filtered.lat;
+      delete filtered.lng;
     }
     return filtered;
   },
@@ -33,4 +42,7 @@ app.models.state = Backbone.Model.extend({
     });
     this.set('subjects', subjects);
   },
+  _triggerLocation: _.debounce(function() {
+    this.trigger('change:location');
+  }, 10)
 });

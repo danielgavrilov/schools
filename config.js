@@ -1,7 +1,3 @@
-var config = {
+module.exports = {
   YEAR: "2013"
 }
-
-module.exports = function() {
-  return config;
-};

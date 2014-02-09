@@ -35,11 +35,16 @@ header {
 
 h1 {
   font-size: 30px;
-  margin: 0 0 35px;
   font-weight: 400;
-  padding: 0;
+  color: #444;
   text-align: center;
+  margin: 0 0 35px;
+  padding: 0;
 }
+  h1 a {
+    text-decoration: none;
+    color: inherit;
+  }
 
 /* -----------------------------------------------------------------------------
  * Search form
@@ -369,20 +374,24 @@ tbody.guide td {
 
 .guide .a-a-label {
   left: 0;
-  width: 28%;
+  width: 24%;
   background-color: #ADADAD;
 }
 .guide .a-c-label {
-  left: 28%;
-  width: 28%;
+  left: 24%;
+  width: 24%;
   background-color: #D1D1D1;
 }
 .guide .no-result-label {
-  font-size: 13px;
   right: 0;
-  width: 37%;
   background-color: #dadada;
   text-align: left;
+}
+
+.guide .no-result-label small {
+  font-size: 90%;
+  font-weight: 400;
+  color: #666;
 }
 
 /* -----------------------------------------------------------------------------
@@ -554,7 +563,7 @@ td.sorted {
 }
 
 .subject.focus em {
-  color: rgba(255,255,255,.5);
+  color: rgba(255,255,255,.4);
 }
 
 .subject em {
@@ -624,7 +633,7 @@ td.sorted {
 .subject .entries,
 .subject.focus .entries {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: #333;
   padding-right: 5px;
   position: absolute;
@@ -741,15 +750,15 @@ section.grayscale .entries {
 */
 
 footer {
-  border-top: 2px solid #ccc;
-  padding: 15px 10px 30px;
-  margin-top: 15px;
+  padding: 40px 10px;
   clear: both;
+  text-align: center;
 }
 
   footer p {
-    color: #888;
-    margin: 0;
+    line-height: 1.4;
+    color: #999;
+    margin: 0 auto;
   }
 
     footer p a {
@@ -760,12 +769,13 @@ footer {
         color: #222;
       }
 
-  footer .left {
-    float: left;
+  footer .madeby {
+    margin-bottom: 8px;
   }
 
-  footer .right {
-    float: right;
+  footer .databy {
+    font-size: 12px;
+    color: #bbb;
   }
 
 

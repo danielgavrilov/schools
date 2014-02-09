@@ -1,4 +1,4 @@
-var rePostcode     = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/i;
+var rePostcode     = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}\s*$/i;
 var reLikePostcode = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?(\d([A-Z]{1,2})?)?$/i;
 
 app.views.search = Backbone.View.extend({
@@ -8,10 +8,15 @@ app.views.search = Backbone.View.extend({
     this.$useLocation = this.$el.find('.use-location');
   },
   events: {
-    'input': '_onInput',
-    'submit': '_onSubmit',
+    'input': function(event) {
+      this.query(this.$input.val());
+      event.preventDefault();
+    },
+    'submit': function(event) {
+      this.query(this.$input.blur().val());
+      event.preventDefault();
+    },
     'click .use-location': function(event) {
-      this._updateQuery(null);
       this.byCurrentLocation();
       event.preventDefault();
     }
@@ -23,7 +28,7 @@ app.views.search = Backbone.View.extend({
   },
   byName: function(query) {
     this._updateQuery(query);
-    var searchPattern = query.split(/\s/).join('.+');
+    var searchPattern = query.split(/\s/g).join('.+');
     var re = new RegExp(searchPattern, 'i');
     var names = app.preload.schoolnames;
     var urns = [];
@@ -35,27 +40,33 @@ app.views.search = Backbone.View.extend({
     }
     app.schools.sorting.sort(null);
     app.results.resetURNs(urns);
-    app.schools.distanceFrom();
+    app.schools.hideDistance();
   },
   byPostcode: function(postcode) {
+    var self = this;
     this._updateQuery(postcode);
+    app.get.postcode(postcode, function(err, location) {
+      if (!err) self.byLocation(location, {postcode: true});
+    });
   },
-  byLocation: function(location) {
+  byLocation: function(location, options) {
+    var self = this;
+    options = options || {};
     app.get.byLocation(location, function(err, schools, resp) {
       var urns = _.pluck(schools, '_id');
       var location = resp.near && resp.near.location;
       app.cache.add(schools);
       app.results.resetURNs(urns);
-      app.schools.distanceFrom(location);
+      app.schools.showDistance();
       app.state.set({
         lng: location[0],
         lat: location[1]
       });
+      if (!options.postcode) self._updateQuery();
     });
   },
   byCurrentLocation: function(event) {
     if ('geolocation' in navigator) {
-      this.$useLocation.addClass('loading');
       navigator.geolocation.getCurrentPosition(this._handleResponse, this._handleResponseError);
     }
   },
@@ -69,21 +80,10 @@ app.views.search = Backbone.View.extend({
     // POSITION_UNAVAILABLE (2) if the network is down or the positioning satellites can’t be contacted.
     // TIMEOUT (3) if the network is up but it takes too long to calculate the user’s position. How long is “too long”? I’ll show you how to define that in the next section.
   },
-  _onInput: function(event) {
-    this.query(this.$input.val());
-    event.preventDefault();
-  },
-  _onSubmit: function(event) {
-    this.query(this.$input.blur().val());
-    event.preventDefault();
-  },
   _updateQuery: function(value) {
-    var old = this.$input.val();
-    if (value !== old) this.$input.val(value);
+    this.$input.val(value);
     app.state.set({
-      q: value,
-      lat: null,
-      lng: null
+      q: value
     });
   }
 });

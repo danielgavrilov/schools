@@ -7,4 +7,4 @@ this["app"]["templates"]["school"] = function(data) {var __t, __p = '', __e = _.
 
 this["app"]["templates"]["schoolLoading"] = function(data) {var __t, __p = '', __e = _.escape;__p += '<td class="name">' +((__t = ( data.name )) == null ? '' : __t) +'</td>\r\n<td colspan="7" class="loading"></td>\r\n<td class="distance"></td>';return __p};
 
-this["app"]["templates"]["subject"] = function(data) {var __t, __p = '', __e = _.escape;__p += '<label data-subject="' +((__t = ( data.name )) == null ? '' : __t) +'"><input type="checkbox"> ' +((__t = ( data.name )) == null ? '' : __t) +'<span>&nbsp;(<i>' +((__t = ( data.count )) == null ? '' : __t) +'</i>)</span></label>';return __p};
+this["app"]["templates"]["subject"] = function(data) {var __t, __p = '', __e = _.escape;__p += '<label><input type="checkbox"> ' +((__t = ( data.name )) == null ? '' : __t) +'<span>&nbsp;(<i>' +((__t = ( data.count )) == null ? '' : __t) +'</i>)</span></label>';return __p};

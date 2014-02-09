@@ -4,6 +4,7 @@ app.models.school = Backbone.Model.extend({
     _.bindAll(this, '_loadedCheck');
     this.loading = false;
     this.on('change', _.debounce(this._loadedCheck, 10));
+    this.listenTo(app.state, 'change:location', this.updateDistance);
     this.onload(this._parseData);
   },
   // Whether the model is loaded.
@@ -22,6 +23,14 @@ app.models.school = Backbone.Model.extend({
       return {};
     }
   },
+  updateDistance: function() {
+    try {
+      var current = this.get('location').coordinates;
+      var reference = app.state.getLocation();
+      var distance = app.utils.calcDistance(current, reference);
+      this.set('distance', distance);
+    } catch(e) {}
+  },
   _loadedCheck: function() {
     if (this.loading && this.loaded()) {
       this.loading = false;
@@ -39,7 +48,7 @@ app.views.school = Backbone.View.extend({
   template: app.templates.school,
   loadingTemplate: app.templates.schoolLoading,
   initialize: function() {
-    this.listenTo(this.model, 'change:distance', this.setDistance);
+    this.listenTo(this.model, 'change:distance', this.updateDistance);
     if (this.model.loaded()) {
       this.render();
     } else {
@@ -56,7 +65,7 @@ app.views.school = Backbone.View.extend({
     var html = this.template(data);
     this.$el.html(html);
     this.$distance = this.$('.distance');
-    this.setDistance();
+    this.updateDistance();
     this.performance = new app.views.performance({
       el: this.$('td.performance'),
       model: this.model
@@ -66,7 +75,7 @@ app.views.school = Backbone.View.extend({
     var html = this.loadingTemplate(this.model.toJSON());
     this.$el.html(html);
   },
-  setDistance: function() {
+  updateDistance: function() {
     var value = this.model.get('distance');
     try {
       value = value.toFixed(1);
@@ -239,6 +248,9 @@ app.collections.schools = Backbone.Collection.extend({
   },
   resetURNs: function(urns) {
     return this.reset(app.cache.getByURNs(urns));
+  },
+  visible: function() {
+    return this.toArray();
   }
 });
 
@@ -279,8 +291,10 @@ app.views.schools = Backbone.View.extend({
     this.results = options.results;
     this.$compare = options.$compare;
     this.$results = options.$results;
-    this.listenTo(this.compare, 'reset', this._removeViews);
-    this.listenTo(this.results, 'reset', this._removeViews);
+    this.listenTo(this.compare, 'reset', this._onReset);
+    this.listenTo(this.results, 'reset', this._onReset);
+    this.listenTo(this.compare, 'remove', this._onRemove);
+    this.listenTo(this.results, 'remove', this._onRemove);
     this.listenTo(this.compare, 'add remove reset sort', this._updateCompare);
     this.listenTo(this.results, 'add remove reset sort update loaded', this._updateResults);
     this.listenTo(this.compare, 'add remove reset update loaded', this._updateSubjectCounts);
@@ -300,20 +314,11 @@ app.views.schools = Backbone.View.extend({
   models: function() {
     return _.union(this.compare.models, this.results.models);
   },
-  distanceFrom: function(location) {
-    if (!location) {
-      this.$el.addClass('no-distance');
-    } else {
-      this.$el.removeClass('no-distance');
-      this.models().forEach(function(model) {
-        var coords, distance;
-        try {
-          coords = model.get('location').coordinates;
-          distance = app.utils.calcDistance(location, coords);
-        } catch(e) {}
-        model.set('distance', distance);
-      });
-    }
+  showDistance: function() {
+    this.$el.removeClass('no-distance');
+  },
+  hideDistance: function() {
+    this.$el.addClass('no-distance');
   },
   isEmpty: function() {
     return this.compare.length + this.results.visible().length === 0;
@@ -341,11 +346,17 @@ app.views.schools = Backbone.View.extend({
     var fragment = app.utils.arrayToFragment(elems);
     this.$results.append(fragment);
   },
-  _removeViews: function(collection, options) {
+  _onRemove: function(model) {
+    this._removeViews([model]);
+  },
+  _onReset: function(collection, options) {
     var previous = options.previousModels;
     var current = this.models();
     var removed = _.difference(previous, current);
-    removed.forEach(function(model) {
+    this._removeViews(removed);
+  },
+  _removeViews: function(models) {
+    models.forEach(function(model) {
       if (model.view) {
         model.view.remove();
         delete model.view;

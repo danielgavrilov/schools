@@ -4,14 +4,17 @@ var site = require('./site');
 
 var app = express();
 var port = process.env.PORT || 8000;
+var env = app.get('env');
 
 app.use(express.favicon());
-app.configure('production', function() {
+
+if (env === 'production') {
+  var newrelic = require('newrelic');
   app.use(require('logfmt').requestLogger());
-});
-app.configure('development', function() {
+} else {
   app.use(express.logger('dev'));
-});
+}
+
 app.use(express.compress());
 app.use('/api', api);
 app.use(site);
