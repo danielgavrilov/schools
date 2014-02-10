@@ -16,8 +16,21 @@
 </td>
 <td class="performance"></td>
 <td class="total-a2"><%= data["performance"][YEAR]["students"]["a-level"] %></td>
-<td class="total-1618"><%= data["performance"][YEAR]["students"]["16-18"] %></td>
-<td class="aps-student"><%= app.utils.toFixed(data["performance"][YEAR]["aps"]["a-level"]["student"], 1) %></td>
+<td class="total-subjects">
+  <div class="tooltip">
+    <%= data["total-subjects"] %>
+    <% if (data["total-subjects"] > 0) { %>
+    <div class="all-subjects message <% if (data["total-subjects"] > 45) { print("four") } else if (data["total-subjects"] > 30) { print("three") } else if (data["total-subjects"] > 15) { print("two") } %>">
+      <% data["subjects"].forEach(function(subject) { %>
+      <div class="all-subjects-entry">
+        <i><%= subject.total %></i>
+        <b><%= subject.name %></b>
+      </div>
+      <% }); %>
+    </div>
+    <% } %>
+  </div>
+</td>
 <td class="aps-entry"><%= app.utils.toFixed(data["performance"][YEAR]["aps"]["a-level"]["entry"], 1) %></td>
 <td class="type <%= data["supertype"].toLowerCase() %>"><%= data["supertype"] %></td>
 <td class="distance"></td>

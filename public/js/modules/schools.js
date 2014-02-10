@@ -18,7 +18,7 @@ app.models.school = Backbone.Model.extend({
   },
   getSubject: function(name) {
     try {
-      return this.get('performance')[YEAR]["results"]["a-level"][name];
+      return this.get('performance')[YEAR]['results']['a-level'][name];
     } catch(e) {
       return {};
     }
@@ -38,7 +38,11 @@ app.models.school = Backbone.Model.extend({
     }
   },
   _parseData: function() {
+    var totalSubjects;
     this.set('supertype', app.helpers.getSuperType(this.get('type')));
+    try { totalSubjects = _.keys(this.get('performance')[YEAR]['results']['a-level']).length; } 
+    catch(e) { totalSubjects = null }
+    this.set('total-subjects', totalSubjects);
   }
 });
 
@@ -62,7 +66,7 @@ app.views.school = Backbone.View.extend({
   },
   render: function() {
     var data = this.model.toJSON();
-    var html = this.template(data);
+    var html = this.template(this._processData(data));
     this.$el.html(html);
     this.$distance = this.$('.distance');
     this.updateDistance();
@@ -93,6 +97,16 @@ app.views.school = Backbone.View.extend({
   _removeFromCompare: function() {
     app.compare.remove(this.model);
   },
+  _processData: function(data) {
+    try {
+      var subjects = data['performance'][YEAR]['results']['a-level'];
+      for (var name in subjects) {
+        subjects[name].name = name;
+      }
+      data['subjects'] = _.sortBy(_.values(subjects), 'total').reverse();
+    } catch(e) {}
+    return data;
+  }
 });
 
 app.views.performance = Backbone.View.extend({
@@ -152,17 +166,17 @@ app.views.performance = Backbone.View.extend({
       var NR = subject["NR"];
       var total = subject["total"];
       _.extend(subject, {
-        "a-a": {
-          "num": AtoA || "",
-          "perc": toPerc(AtoA/total),
+        'a-a': {
+          'num': AtoA || '',
+          'perc': toPerc(AtoA/total),
         },
-        "a-c": {
-          "num": AtoC || "",
-          "perc": toPerc(AtoC/total)
+        'a-c': {
+          'num': AtoC || '',
+          'perc': toPerc(AtoC/total)
         },
-        "no-result": {
-          "num": NR || "",
-          "perc": toPerc(NR/total)
+        'no-result': {
+          'num': NR || '',
+          'perc': toPerc(NR/total)
         }
       });
     }

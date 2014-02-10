@@ -37,11 +37,8 @@ app.views.sorting = Backbone.View.extend({
     'total-a2': {
       asc: function(model) { try { return model.get('performance')[YEAR]['students']['a-level'] } catch(e) {} }
     },
-    'total-1618': { 
-      asc: function(model) { try { return model.get('performance')[YEAR]['students']['16-18'] } catch(e) {} }
-    },
-    'aps-student': { 
-      asc: function(model) { try { return model.get('performance')[YEAR]['aps']['a-level'].student } catch(e) {} }
+    'total-subjects': {
+      asc: function(model) { return model.get('total-subjects') }
     },
     'aps-entry': {
       asc: function(model) { try { return model.get('performance')[YEAR]['aps']['a-level'].entry } catch(e) {} }

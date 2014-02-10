@@ -17,7 +17,7 @@ a {
 }
 
 .inner {
-  max-width: 1220px;
+  max-width: 1160px;
   margin: 0 auto;
 }
 
@@ -52,7 +52,7 @@ h1 {
 
 .search-form {
     margin: 0 auto;
-    width: 590px;
+    max-width: 590px;
 }
 
   .search-form .wrapper {
@@ -267,10 +267,11 @@ h1 {
 .schools th {
   font-size: 15px;
   font-weight: 400;
+  line-height: 1.2;
   color: white;
   text-align: left;
   border-left: 1px solid #888;
-  padding: 5px 7px;
+  padding: 8px 7px 5px;
   vertical-align: bottom;
   position: relative;
   cursor: default;
@@ -432,18 +433,18 @@ td.performance {
   padding: 9px 0 8px 0 !important;
 }
 
-.total-1618,
-.total-ks5,
 .total-a2 {
   font-size: 18px;
   text-align: right;
-}
-
-.total-a2 {
   font-weight: 700;
 }
 
-.aps-student,
+.total-subjects {
+  font-size: 18px;
+  color: #444;
+  text-align: right;
+}
+
 .aps-entry {
   font-size: 16px;
   font-weight: 700;
@@ -627,7 +628,7 @@ td.sorted {
 .subject .no-result,
 .subject.focus .no-result {
   right: 0;
-  background-color: #d3d3d3;
+  background-color: #ccc;
 }
 
 .subject .entries,
@@ -679,16 +680,73 @@ section.grayscale .entries {
 }
 
 /* -----------------------------------------------------------------------------
+ * All subjects list (shown on hover)
+ */
+
+.total-subjects .tooltip {
+  display: inline-block;
+  border-bottom: 2px solid rgba(0,0,0,.15);
+  cursor: pointer;
+}
+  .total-subjects .tooltip:hover {
+    border-bottom-color: rgba(0,0,0,.4);
+  }
+
+.schools .all-subjects.message {
+  font-size: 12px;
+  text-align: right;
+  width: 140px;
+  margin-left: -70px;
+  padding: 10px 10px 9px;
+  column-gap: 25px;
+}
+
+.schools .all-subjects.four {
+  width: 560px;
+  margin-left: -280px;
+  column-count: 4;
+}
+
+.schools .all-subjects.three {
+  width: 420px;
+  margin-left: -210px;
+  column-count: 3;
+}
+
+.schools .all-subjects.two {
+  width: 280px;
+  margin-left: -140px;
+  column-count: 2;
+}
+
+.all-subjects-entry {
+  line-height: 1.1;
+  padding: 2px 0;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  column-break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.all-subjects-entry b {
+  font-weight: 400;
+  margin-right: 20px;
+  display: block;
+}
+
+.all-subjects-entry i {
+  float: right;
+  font-style: normal;
+  color: #999;
+}
+
+/* -----------------------------------------------------------------------------
  * Compare
  */
 
 .results .remove-compare {
   display: none;
 }
-
-/* -----------------------------------------------------------------------------
- * Compare
- */
 
 .compare {
   background-color: rgb(245, 245, 245);
@@ -709,23 +767,6 @@ section.grayscale .entries {
   display: none;
 }
 
-/* -----------------------------------------------------------------------------
- * Based on
- */
-
-.based-on {
-  font-size: 13px;
-  color: #999;
-  text-align: right;
-  margin-top: 15px;
-}
-  .based-on a {
-    color: inherit;
-    text-decoration: underline;
-  }
-    .based-on a:hover {
-      color: #222;
-    }
 
 /* -----------------------------------------------------------------------------
  * No results
