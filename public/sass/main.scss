@@ -689,38 +689,52 @@ section.grayscale .entries {
   cursor: pointer;
 }
   .total-subjects .tooltip:hover {
-    border-bottom-color: rgba(0,0,0,.4);
+    border-bottom-color: #0076e4;
   }
 
 .schools .all-subjects.message {
-  font-size: 12px;
-  text-align: right;
   width: 140px;
   margin-left: -70px;
   padding: 10px 10px 9px;
+}
+
+.all-subjects h3 {
+  font-size: 14px;
+  text-align: center;
+  margin: 2px 0 9px;
+}
+
+.all-subjects-list {
   column-gap: 25px;
 }
 
 .schools .all-subjects.four {
   width: 560px;
   margin-left: -280px;
+}
+.four .all-subjects-list {
   column-count: 4;
 }
 
 .schools .all-subjects.three {
   width: 420px;
   margin-left: -210px;
+}
+.three .all-subjects-list {
   column-count: 3;
 }
 
 .schools .all-subjects.two {
   width: 280px;
   margin-left: -140px;
+}
+.two .all-subjects-list {
   column-count: 2;
 }
 
 .all-subjects-entry {
-  line-height: 1.1;
+  font-size: 12px;
+  line-height: 1.2;
   padding: 2px 0;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
@@ -730,7 +744,8 @@ section.grayscale .entries {
 
 .all-subjects-entry b {
   font-weight: 400;
-  margin-right: 20px;
+  text-align: right;
+  margin-right: 25px;
   display: block;
 }
 
@@ -738,6 +753,8 @@ section.grayscale .entries {
   float: right;
   font-style: normal;
   color: #999;
+  text-align: left;
+  width: 19px;
 }
 
 /* -----------------------------------------------------------------------------

@@ -21,12 +21,15 @@
     <%= data["total-subjects"] %>
     <% if (data["total-subjects"] > 0) { %>
     <div class="all-subjects message <% if (data["total-subjects"] > 45) { print("four") } else if (data["total-subjects"] > 30) { print("three") } else if (data["total-subjects"] > 15) { print("two") } %>">
-      <% data["subjects"].forEach(function(subject) { %>
-      <div class="all-subjects-entry">
-        <i><%= subject.total %></i>
-        <b><%= subject.name %></b>
+      <h3>Number of students per subject</h3>
+      <div class="all-subjects-list">
+        <% data["subjects"].forEach(function(subject) { %>
+        <div class="all-subjects-entry">
+          <i><%= subject.total %></i>
+          <b><%= subject.name %></b>
+        </div>
+        <% }); %>
       </div>
-      <% }); %>
     </div>
     <% } %>
   </div>
