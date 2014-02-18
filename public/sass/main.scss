@@ -34,11 +34,10 @@ header {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 400;
-  color: #444;
   text-align: center;
-  margin: 0 0 35px;
+  margin: 0 0 30px;
   padding: 0;
 }
   h1 a {
@@ -564,7 +563,7 @@ td.sorted {
 }
 
 .subject.focus em {
-  color: rgba(255,255,255,.4);
+  color: rgba(255,255,255,.3);
 }
 
 .subject em {
@@ -700,12 +699,13 @@ section.grayscale .entries {
 
 .all-subjects h3 {
   font-size: 14px;
+  font-weight: 600;
   text-align: center;
-  margin: 2px 0 9px;
+  margin: 3px 0 10px;
 }
 
 .all-subjects-list {
-  column-gap: 25px;
+  column-gap: 15px;
 }
 
 .schools .all-subjects.four {
