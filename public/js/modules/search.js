@@ -42,7 +42,6 @@ app.views.search = Backbone.View.extend({
         if (urns.length >= 20) break;
       }
     }
-    app.schools.sorting.sort(null);
     app.results.resetURNs(urns);
     app.schools.hideDistance();
   },
