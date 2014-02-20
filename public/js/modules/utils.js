@@ -80,3 +80,10 @@ app.utils.reverseSortBy = function(sortByFunction) {
     return l < r ? 1 : l > r ? -1 : 0;
   };
 };
+
+app.utils.uninterpolateClamp = function(a, b) {
+  b -= a;
+  return function(x) {
+    return Math.max(0, Math.min(1, (x-a)/b));
+  }
+};

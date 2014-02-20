@@ -340,7 +340,7 @@ th.sortable {
 
 tbody.guide td {
   padding: 10px;
-  border-left: none;
+  border-left: 1px solid transparent;
   vertical-align: middle;
 }
 
@@ -403,7 +403,7 @@ tbody {
 }
 
 .school {
-  height: 52px;
+  height: 51px;
 }
   .school:hover {
     background-color: rgba(0,0,0,.025);
@@ -444,11 +444,14 @@ td.performance {
   text-align: right;
 }
 
-.aps-entry {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0076e4;
-  text-align: right;
+.schools .aps-entry {
+  padding-top: 27px;
+  padding-bottom: 7px;
+  vertical-align: top;
+}
+
+.aps-entry-mean {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABlJREFUeNpimDlz5n+G////MzAxAAFAgAEAOkUFyjWalqoAAAAASUVORK5CYII=) 50% 0 repeat-y;
 }
 
 .type {
@@ -755,6 +758,70 @@ section.grayscale .entries {
   color: #999;
   text-align: left;
   width: 19px;
+}
+
+/* -----------------------------------------------------------------------------
+ * APS entry histogram
+ */
+
+.aps-entry-content {
+  position: relative;
+}
+
+.aps-entry-histogram {
+  height: 33px;
+}
+
+.aps-entry-histogram .wrap {
+  float: left;
+  position: relative;
+  height: 100%;
+}
+
+.aps-entry-histogram .bar {
+  background-color: rgba(0,0,0,.09);
+  margin-right: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.aps-entry .marker {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0 3px;
+  position: absolute;
+  top: -15px;
+  bottom: 0;
+}
+
+.better .marker {
+  color: #00A527;
+  border-right: 2px solid #00A527;
+  margin-right: -1px;
+}
+
+.worse .marker {
+  color: #b60000;
+  border-left: 2px solid #b60000;
+  margin-left: -1px;
+}
+
+.aps-entry .area {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.05);
+}
+
+.better .area {
+  background: linear-gradient(to bottom, rgba(0,222,52,0) 0%,rgba(0,222,52,0.3) 100%);
+}
+
+.worse .area {
+  background: linear-gradient(to bottom, rgba(255,0,0,0) 0%,rgba(255,0,0,0.25) 100%);
 }
 
 /* -----------------------------------------------------------------------------

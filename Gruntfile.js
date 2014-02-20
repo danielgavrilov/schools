@@ -16,6 +16,8 @@ module.exports = function(grunt) {
         'public/js/vendor/backbone.queryparams.js',
         'public/js/preload.js',
         'public/js/templates.js',
+        'public/js/modules/utils.js',
+        'public/js/modules/helpers.js',
         'public/js/modules/*.js',
         'public/js/main.js',
       ],
@@ -127,22 +129,34 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('cleanmap', 'Replace double backslash with forward slash (Windows bug).', function() {
-    var path = 'public/build/app.map';
-    var content = grunt.file.read(path);
-    content = content.replace(/\\{2}/g,'/');
-    grunt.file.write(path, content);
+  grunt.registerTask('aps', 'Generate APS entry histogram', function() {
+    var done = this.async();
+    var aps = require('./tasks/aps');
+    aps(function(data) {
+      grunt.file.write('tasks/preload/aps.js', JSON.stringify(data.measures));
+      grunt.file.write('public/js/templates/aps.tmpl', data.html);
+      grunt.file.write('public/sass/aps.scss', data.css);
+      done();
+    });
   });
 
   grunt.registerTask('preload', 'Generate preload.js', function() {
     var preload = {
       colornames: grunt.file.read('tasks/preload/colornames.js'),
       subjectnames: grunt.file.read('tasks/preload/subjectnames.js'),
-      schoolnames: grunt.file.read('tasks/preload/schoolnames.js')
+      schoolnames: grunt.file.read('tasks/preload/schoolnames.js'),
+      aps: grunt.file.read('tasks/preload/aps.js')
     };
     var template = grunt.file.read('tasks/preload/preload.tmpl');
     var content = grunt.template.process(template, {data: preload});
     grunt.file.write('public/js/preload.js', content);
+  });
+
+  grunt.registerTask('cleanmap', 'Replace double backslash with forward slash (Windows bug).', function() {
+    var path = 'public/build/app.map';
+    var content = grunt.file.read(path);
+    content = content.replace(/\\{2}/g,'/');
+    grunt.file.write(path, content);
   });
 
   grunt.loadNpmTasks('grunt-contrib-sass');
@@ -153,7 +167,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('css', ['sass', 'autoprefixer']);
   grunt.registerTask('js', ['uglify', 'cleanmap']);
-  grunt.registerTask('generate', ['colors', 'schools', 'subjects', 'preload']);
+  grunt.registerTask('generate', ['colors', 'schools', 'subjects', 'aps', 'preload']);
   grunt.registerTask('default', ['generate', 'css', 'jst', 'js']);
 
 };

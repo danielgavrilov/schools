@@ -69,6 +69,8 @@ app.views.school = Backbone.View.extend({
     var html = this.template(this._processData(data));
     this.$el.html(html);
     this.$distance = this.$('.distance');
+    this.$aps = this.$('.aps-entry-content');
+    this.renderAPS();
     this.updateDistance();
     this.performance = new app.views.performance({
       el: this.$('td.performance'),
@@ -78,6 +80,27 @@ app.views.school = Backbone.View.extend({
   renderLoading: function() {
     var html = this.loadingTemplate(this.model.toJSON());
     this.$el.html(html);
+  },
+  renderAPS: function() {
+    var html = app.templates.aps();
+    try {
+      var score = this.model.get('performance')[YEAR]['aps']['a-level']['entry'];
+      if (typeof score !== 'number') throw new Error('School does not have score');
+      var mean = app.preload.aps.mean;
+      var better = score >= mean;
+      var percentage = app.utils.toPercentage;
+      var interpolate = app.helpers.apsInterpolate;
+      var left = interpolate(better ? mean : score);
+      var width = Math.abs(interpolate(score) - interpolate(mean));
+      html += app.templates.apsMarker({
+        better: better,
+        score: app.utils.toNumber(score, 1),
+        marker: percentage(better ? 1-interpolate(score) : interpolate(score)),
+        left: percentage(left),
+        width: percentage(width)
+      });
+    } catch(e) {}
+    this.$aps.html(html).addClass(better ? 'better' : 'worse');
   },
   updateDistance: function() {
     var value = this.model.get('distance');

@@ -27,3 +27,4 @@ app.helpers.getSubjectCounts = function(schools) {
   return counts;
 };
 
+app.helpers.apsInterpolate = app.utils.uninterpolateClamp(app.preload.aps.min, app.preload.aps.max);
