@@ -93,7 +93,7 @@ module.exports = function(grunt) {
         tasks: ['js']
       },
       colors: {
-        files: 'scripts/colors/*',
+        files: 'tasks/colors/*',
         tasks: ['colors']
       }
     }
@@ -101,28 +101,28 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('colors', 'Generate colors', function() {
-    var colors = require('./scripts/colors/colors');
-    var template = grunt.file.read('scripts/colors/colors.tmpl');
+    var colors = require('./tasks/colors/colors');
+    var template = grunt.file.read('tasks/colors/colors.tmpl');
     var colorNames = colors.map(function(color) { return color.name; });
     var css = grunt.template.process(template, {data: {colors: colors}});
     grunt.file.write('public/sass/colors.scss', css);
-    grunt.file.write('scripts/preload/colornames.js', JSON.stringify(colorNames));
+    grunt.file.write('tasks/preload/colornames.js', JSON.stringify(colorNames));
   });
 
   grunt.registerTask('schools', 'Generate schools', function() {
     var done = this.async();
-    var schools = require('./scripts/schools');
+    var schools = require('./tasks/schools');
     schools.getNames(function(names) {
-      grunt.file.write('scripts/preload/schoolnames.js', JSON.stringify(names));
+      grunt.file.write('tasks/preload/schoolnames.js', JSON.stringify(names));
       done();
     });
   });
 
   grunt.registerTask('subjects', 'Generate subjects', function() {
     var done = this.async();
-    var subjects = require('./scripts/subjects');
+    var subjects = require('./tasks/subjects');
     subjects.getNames(function(names) {
-      grunt.file.write('scripts/preload/subjectnames.js', JSON.stringify(names));
+      grunt.file.write('tasks/preload/subjectnames.js', JSON.stringify(names));
       done();
     });
   });
@@ -136,11 +136,11 @@ module.exports = function(grunt) {
 
   grunt.registerTask('preload', 'Generate preload.js', function() {
     var preload = {
-      colornames: grunt.file.read('scripts/preload/colornames.js'),
-      subjectnames: grunt.file.read('scripts/preload/subjectnames.js'),
-      schoolnames: grunt.file.read('scripts/preload/schoolnames.js')
+      colornames: grunt.file.read('tasks/preload/colornames.js'),
+      subjectnames: grunt.file.read('tasks/preload/subjectnames.js'),
+      schoolnames: grunt.file.read('tasks/preload/schoolnames.js')
     };
-    var template = grunt.file.read('scripts/preload/preload.tmpl');
+    var template = grunt.file.read('tasks/preload/preload.tmpl');
     var content = grunt.template.process(template, {data: preload});
     grunt.file.write('public/js/preload.js', content);
   });
