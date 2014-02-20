@@ -20,7 +20,7 @@ function between(lower, number, upper) {
 function positionFromURN(req, res, next) {
   if (!req.query.urn) return next();
   var urn = validURN(req.query.urn);
-  if (!urn) return res.json(400, { 
+  if (!urn) return res.jsonp(400, { 
     error: "Invalid URN: must be a 6-digit integer."
   });
   schools.find({_id: urn}, {location: 1}, {limit: 1}, function(err, results) {
@@ -31,7 +31,7 @@ function positionFromURN(req, res, next) {
       req.lat = coords[1];
       next();
     } catch(e) {
-      res.json(404, { 
+      res.jsonp(404, { 
         error: "Location unavailable for the specified school."
       });
     }
@@ -42,13 +42,20 @@ function parseLngLat(req, res, next) {
   if (!req.query.lat || !req.query.lng) return next();
   var lng = parseFloat(req.query.lng);
   var lat = parseFloat(req.query.lat);
-  if (isNaN(lng) || isNaN(lat)) return res.json(400, {
+  if (isNaN(lng) || isNaN(lat)) return res.jsonp(400, {
     error: "Invalid lat/lng coordinates provided."
   });
   req.lng = lng;
   req.lat = lat;
   next();
 }
+
+// Enable Cross-Origin Resource Sharing (CORS)
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
 
 app.get('/schools', function(req, res, next) {
   var urns;
@@ -60,12 +67,12 @@ app.get('/schools', function(req, res, next) {
   var limit = between(1, req.query.limit, 50);
   schools.find(query, {limit: limit}, function(err, results) {
     if (err) return next(err);
-    res.json({results: results});
+    res.jsonp({results: results});
   });
 });
 
 app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) {
-  if (req.lng === undefined || req.lat === undefined) return res.json(400, {
+  if (req.lng === undefined || req.lat === undefined) return res.jsonp(400, {
     error: "No valid location was provided."
   });
   var distance = between(1, distance, 80000);
@@ -83,7 +90,7 @@ app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) 
     }
   }, {limit: limit}, function(err, results) {
     if (err) return next(err);
-    res.json({ 
+    res.jsonp({ 
       near: {
         location: coords
       },
@@ -93,14 +100,14 @@ app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) 
 });
 
 app.get('/', function(req, res, next) {
-  res.json(200, {
+  res.jsonp(200, {
     message: 'A-level schools API at your service.'
   });
 });
 
 app.use(function(err, req, res, next) {
   console.log(err);
-  res.json(500, {
+  res.jsonp(500, {
     error: 'Something went wrong.'
   });
 });
