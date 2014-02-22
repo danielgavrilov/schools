@@ -171,7 +171,6 @@ app.views.performance = Backbone.View.extend({
     }
   },
   generateSubject: function(subject) {
-    var self = this;
     subject = subject.toJSON();
     var name = subject.name;
     subject = _.extend(subject, this.model.getSubject(name));
