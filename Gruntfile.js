@@ -97,6 +97,14 @@ module.exports = function(grunt) {
       colors: {
         files: 'tasks/colors/*',
         tasks: ['colors']
+      },
+      aps: {
+        files: 'tasks/aps/*',
+        tasks: ['aps']
+      },
+      preload: {
+        files: 'tasks/preload/*',
+        tasks: ['preload']
       }
     }
 
