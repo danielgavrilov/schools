@@ -310,8 +310,8 @@ th.sorted-desc:after {
   border-color: rgba(255,255,255,.6) transparent transparent transparent;
   border-width: 5px 5px 0 5px;
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 3px;
+  right: 3px;
 }
 
 th.sorted-asc:after {
@@ -544,7 +544,7 @@ td.sorted {
   height: 15px;
   line-height: 15px;
   position: relative;
-  margin-right: 29px;
+  margin-right: 31px;
   margin-bottom: 1px;
   background-color: rgba(0,0,0,.02);
   cursor: default;
@@ -638,11 +638,11 @@ td.sorted {
   font-size: 13px;
   font-weight: 600;
   color: #333;
-  padding-right: 5px;
+  padding-left: 6px;
   position: absolute;
   left: 100%;
-  text-align: right;
-  width: 28px;
+  text-align: left;
+  width: 29px;
 }
 .suppressed .entries,
 .suppressed.focus .entries {
@@ -678,7 +678,7 @@ section.grayscale .no-result {
   background: rgba(0,0,0,.03);
 }
 section.grayscale .entries {
-  color: #ccc;
+  color: #d5d5d5;
 }
 
 /* -----------------------------------------------------------------------------
@@ -961,7 +961,7 @@ footer {
   letter-spacing: 0;
   text-transform: none;
   text-align: center;
-  background-color: rgba(0,0,0,.85);
+  background-color: rgba(0,0,0,.9);
   position: absolute;
   width: 90px;
   left: 50%;
