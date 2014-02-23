@@ -1,21 +1,15 @@
-lib-cov
 *.seed
 *.log
 *.dat
 *.out
 *.pid
 *.gz
-
-pids
-logs
-results
+*.pyc
+*.env
+*.sublime-workspace
 
 npm-debug.log
 node_modules
+
 .sass-cache
-
 mongo_admin.json
-*.env
-
-*.pyc
-*.sublime-workspace
