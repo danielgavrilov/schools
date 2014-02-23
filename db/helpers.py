@@ -5,7 +5,7 @@ import json
 import requests
 import shelve
 
-with open('mongohq_credentials.json') as credentials:
+with open('mongo_admin.json') as credentials:
     db_url = json.load(credentials)['url']
 
 # Type conversion
