@@ -26,8 +26,6 @@ for school in parse_csv("../data/2013/ks5_attainment.csv"):
                 "admissions": school["ADMPOL"],
                 "gender": school["GENDER1618"].capitalize(),
                 "ages": school["AGERANGE"],
-                "primary": bool(to_int(school["TABKS2"])),
-                "secondary": bool(to_int(school["TAB15"])),
                 "performance.2013.students": {
                     "16-18": to_int(school["TPUP1618"], True),
                     "ks5": to_int(school["TALLPUPA"]),
