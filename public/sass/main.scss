@@ -125,7 +125,7 @@ h1 {
   background-color: #f1f1f1;
   width: 210px;
   position: relative;
-  padding: 15px;
+  padding: 12px;
   margin-bottom: 30px;
 }
 
@@ -146,8 +146,8 @@ h1 {
 
   .subjects-filter label {
     font-size: 14px;
-    margin: 2px 5px 0 0;
-    padding: 2px 2px 2px 4px;
+    margin: 2px 0 0 0;
+    padding: 2px 5px 2px 4px;
     display: block;
     cursor: pointer;
     border-left: 3px solid transparent;
@@ -165,13 +165,16 @@ h1 {
       opacity: .5;
     }
 
-    .subjects-filter label span {
-      color: #999;
-    
-}
-
     .subjects-filter label i {
       font-style: normal;
+      font-weight: normal !important;
+      color: #9f9f9f;
+      float: right;
+      padding-left: 4px;
+    }
+
+    .subjects-filter .selected i {
+      color: #666;
     }
 
   .subjects-filter input[type=checkbox] {
@@ -182,18 +185,20 @@ h1 {
   .subjects-filter form {
     display: inline-block;
     margin: 0;
+    padding: 0 5px;
+    width: 100%;
   }
 
   .search-subjects {
     font-size: 15px;
     background-color: transparent;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiDQoJIHdpZHRoPSIxM3B4IiBoZWlnaHQ9IjEzcHgiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTMgMTMiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNBQUFBQUEiIGQ9Ik05LjMwOSw3LjQ5NkM5LjczNiw2Ljc1OSwxMCw1LjkxNCwxMCw1YzAtMi43NjEtMi4yMzgtNS01LTUNCglTMCwyLjIzOSwwLDVjMCwyLjc2MiwyLjIzOCw1LDUsNWMwLjkxNCwwLDEuNzU5LTAuMjY0LDIuNDk3LTAuNjkxbDMuMzI2LDMuMzI3bDEuODEzLTEuODEyTDkuMzA5LDcuNDk2eiBNNSw4QzMuMzQzLDgsMiw2LjY1NywyLDUNCglzMS4zNDMtMywzLTNzMywxLjM0MywzLDNTNi42NTcsOCw1LDh6Ii8+DQo8L3N2Zz4NCg==);
-    background-position: 5px center;
+    background-position: 2px center;
     background-repeat: no-repeat;
     border: none;
     border-bottom: 1px dotted #c6c6c6;
     outline: none;
-    padding: 3px 0 3px 23px;
+    padding: 3px 0 3px 19px;
     width: 100%;
     margin: 10px 0 0;
     transition: 100ms border-color linear;
@@ -769,7 +774,7 @@ section.grayscale .entries {
 }
 
 .aps-entry-histogram {
-  height: 33px;
+  height: 24px;
 }
 
 .aps-entry-histogram .wrap {

@@ -18,16 +18,14 @@ app.views.sorting = Backbone.View.extend({
         scores.forEach(function(subject) {
           var total = subject['total'] || 0;
           if (total > 0) {
+            score += 100;
             if (subject['A'] != null) {
-              score += 1e6;
               score += 60 * subject['A*'] / total;
               score += 50 * subject['A'] / total;
               score += 40 * subject['B'] / total;
               score += 30 * subject['C'] / total;
               score += 20 * subject['D'] / total;
               score += 10 * subject['E'] / total;
-            } else {
-              score += 1e5;
             }
           }
         });

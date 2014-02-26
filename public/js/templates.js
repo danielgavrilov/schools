@@ -11,4 +11,4 @@ this["app"]["templates"]["school"] = function(data) {var __t, __p = '', __e = _.
 
 this["app"]["templates"]["schoolLoading"] = function(data) {var __t, __p = '', __e = _.escape;__p += '<td class="name">' +((__t = ( data.name )) == null ? '' : __t) +'</td>\r\n<td colspan="5" class="loading"></td>\r\n<td class="distance"></td>\r\n<td class="compare-col">\r\n  <button class="add-compare">Add</button>\r\n  <button class="remove-compare">Remove</button>\r\n</td>';return __p};
 
-this["app"]["templates"]["subject"] = function(data) {var __t, __p = '', __e = _.escape;__p += '<label><input type="checkbox"> ' +((__t = ( data.name )) == null ? '' : __t) +'<span>&nbsp;(<i>' +((__t = ( data.count )) == null ? '' : __t) +'</i>)</span></label>';return __p};
+this["app"]["templates"]["subject"] = function(data) {var __t, __p = '', __e = _.escape;__p += '<label><input type="checkbox"><i>' +((__t = ( data.count )) == null ? '' : __t) +'</i> ' +((__t = ( data.name )) == null ? '' : __t) +'</label>';return __p};
