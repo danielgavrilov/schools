@@ -4,27 +4,42 @@
 .blue .a-a { background-color: hsl(205, 78%, 54%); }
 .blue.focus .a-c,
 .blue .a-c { background-color: hsl(205, 68%, 80%); }
+.blue.suppressed em,
+.blue.suppressed.focus em,
+.blue.no-entries.focus em { color: hsl(205, 78%, 54%); }
 
 .green { border-color: hsl(138, 83%, 38%) !important; }
 .green.focus .a-a,
 .green .a-a { background-color: hsl(138, 83%, 38%); }
 .green.focus .a-c,
 .green .a-c { background-color: hsl(138, 53%, 72%); }
+.green.suppressed em,
+.green.suppressed.focus em,
+.green.no-entries.focus em { color: hsl(138, 83%, 38%); }
 
 .orange { border-color: hsl(28, 78%, 44%) !important; }
 .orange.focus .a-a,
 .orange .a-a { background-color: hsl(28, 78%, 44%); }
 .orange.focus .a-c,
 .orange .a-c { background-color: hsl(28, 68%, 76%); }
+.orange.suppressed em,
+.orange.suppressed.focus em,
+.orange.no-entries.focus em { color: hsl(28, 78%, 44%); }
 
 .violet { border-color: hsl(268, 68%, 58%) !important; }
 .violet.focus .a-a,
 .violet .a-a { background-color: hsl(268, 68%, 58%); }
 .violet.focus .a-c,
 .violet .a-c { background-color: hsl(268, 58%, 82%); }
+.violet.suppressed em,
+.violet.suppressed.focus em,
+.violet.no-entries.focus em { color: hsl(268, 68%, 58%); }
 
 .brown { border-color: hsl(10, 30%, 42%) !important; }
 .brown.focus .a-a,
 .brown .a-a { background-color: hsl(10, 30%, 42%); }
 .brown.focus .a-c,
 .brown .a-c { background-color: hsl(10, 20%, 70%); }
+.brown.suppressed em,
+.brown.suppressed.focus em,
+.brown.no-entries.focus em { color: hsl(10, 30%, 42%); }

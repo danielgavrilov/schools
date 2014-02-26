@@ -4,4 +4,7 @@
 .<%= color.name %> .a-a { background-color: <%= color.dark %>; }
 .<%= color.name %>.focus .a-c,
 .<%= color.name %> .a-c { background-color: <%= color.light %>; }
+.<%= color.name %>.suppressed em,
+.<%= color.name %>.suppressed.focus em,
+.<%= color.name %>.no-entries.focus em { color: <%= color.dark %>; }
 <% }); %>
