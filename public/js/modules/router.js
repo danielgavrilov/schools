@@ -9,7 +9,9 @@ app.routers.main = Backbone.Router.extend({
     params = params || {};
     var typeArray = ['compare', 'exclude', 'subjects'];
     for (var prop in params) {
-      if (_.contains(typeArray, prop)) params[prop] = params[prop].split(',');
+      if (_.contains(typeArray, prop)) { 
+        params[prop] = params[prop].split(',').map(decodeURIComponent);
+      }
     }
     return params;
   },
@@ -44,7 +46,9 @@ app.routers.main = Backbone.Router.extend({
     var props = [];
     for (var prop in params) {
       var value = params[prop];
-      if (_.isArray(value)) value.join(',');
+      if (_.isArray(value)) { 
+        value = value.map(encodeURIComponent).join(',');
+      }
       props.push(prop+'='+value);
     }
     var encoded = (props.length > 0) ? ('?'+props.join('&')) : '';
