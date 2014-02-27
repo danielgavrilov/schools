@@ -208,15 +208,10 @@ app.views.performance = Backbone.View.extend({
     elems.forEach(function(elem) {
       var $elem = $(elem);
       if (!$elem.hasClass('no-entries') && !$elem.hasClass('suppressed')) {
-        var $AtoA = $elem.find('.a-a span');
         var $AtoC = $elem.find('.a-c span');
         var $NR = $elem.find('.no-result span');
-        var $entries = $elem.find('.entries');
         var overlap = app.utils.overlap;
-        if (overlap($AtoA[0], $AtoC[0])) $AtoA.addClass('swap');
-        if (overlap($AtoC[0], $entries[0]) || overlap($AtoC[0], $NR[0])) $AtoC.addClass('swap');
         if (overlap($AtoC[0], $NR[0])) $NR.hide();
-        if (overlap($AtoA[0], $AtoC[0])) $AtoA.addClass('swap');
       }
     });
   },

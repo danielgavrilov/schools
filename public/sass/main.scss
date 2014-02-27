@@ -29,21 +29,30 @@ a {
 
 header {
   padding: 35px 15px 10px;
-  margin-bottom: 28px;
-  /* border-bottom: 2px solid #666; */
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 400;
-  text-align: center;
-  margin: 0 0 30px;
+  margin: 0 0 7px;
   padding: 0;
 }
   h1 a {
     text-decoration: none;
     color: inherit;
   }
+  h1 a:hover {
+    color: #007cef;
+  }
+
+.subtitle {
+  font-size: 18px;
+  color: #888;
+  max-width: 500px;
+  margin: 0 auto 35px;
+}
 
 /* -----------------------------------------------------------------------------
  * Search form
@@ -571,7 +580,7 @@ td.sorted {
 }
 
 .subject.focus em {
-  color: rgba(255,255,255,.3);
+  color: rgba(255,255,255,.25);
 }
 
 .subject em {
@@ -592,24 +601,23 @@ td.sorted {
 
 .subject span {
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   position: absolute;
-  color: #111;
-  left: 100%;
+  color: rgba(0,0,0,.75);
+  right: 0;
   z-index: 50;
   padding: 0 3px;
   visibility: hidden;
-  text-shadow: 0 0 2px white;
-  border-width: 0;
-  border-style: solid;
-  border-color: rgba(0,0,0,.7);
-  border-width: 0 0 0 1px;
+}
+
+.subject .a-a span {
+  color: white;
 }
 
 .subject span.swap {
-  border-width: 0 1px 0 0;
-  left: inherit;
-  right: 0;
+  left: 100%;
+  color: red;
+  right: inherit;
 }
 
 .subject .no-result span {
@@ -643,7 +651,7 @@ td.sorted {
   font-size: 13px;
   font-weight: 600;
   color: #333;
-  padding-left: 6px;
+  margin-left: 6px;
   position: absolute;
   left: 100%;
   text-align: left;
