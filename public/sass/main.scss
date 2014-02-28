@@ -362,12 +362,26 @@ tbody.guide td {
   font-size: 16px;
   font-weight: 700;
   margin: 0;
-  padding: 5px 0 5px 10px;
+  padding: 0 0 0 10px;
 }
 
 .guide .g-performance {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 40px 0 6px;
+}
+
+.guide .explanation {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #666;
+  text-transform: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  right: 0;
 }
 
 .guide .subject {
@@ -380,7 +394,7 @@ tbody.guide td {
 .guide .a-c-label,
 .guide .no-result-label {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: none;
   padding: 0 5px;
   text-align: right;
@@ -388,25 +402,26 @@ tbody.guide td {
 
 .guide .a-a-label {
   left: 0;
-  width: 24%;
-  background-color: #ADADAD;
+  width: 30%;
+  background-color: #888;
+  color: white;
 }
 .guide .a-c-label {
-  left: 24%;
-  width: 24%;
-  background-color: #D1D1D1;
+  left: 30%;
+  width: 30%;
+  background-color: #d2d2d2;
 }
 .guide .no-result-label {
   right: 0;
-  background-color: #dadada;
+  width: 15%;
+  background-color: #d2d2d2;
   text-align: left;
 }
-
-.guide .no-result-label small {
-  font-size: 90%;
-  font-weight: 400;
-  color: #666;
+.guide .entries-label {
+  color: #111 !important;
+  position: relative;
 }
+
 
 /* -----------------------------------------------------------------------------
  * School (table row)
@@ -680,7 +695,7 @@ td.sorted {
 }
 
 section.grayscale .a-a {
-  background-color: rgba(0,0,0,.09);
+  background-color: rgba(0,0,0,.07);
 }
 section.grayscale .a-c {
   background: rgba(0,0,0,.05);
@@ -909,7 +924,7 @@ footer {
 
   footer p {
     line-height: 1.4;
-    color: #999;
+    color: #888;
     margin: 0 auto;
   }
 
@@ -918,7 +933,7 @@ footer {
       text-decoration: underline;
     }
       footer p a:hover {
-        color: #222;
+        color: #444;
       }
 
   footer .madeby {
@@ -927,7 +942,7 @@ footer {
 
   footer .databy {
     font-size: 12px;
-    color: #bbb;
+    color: #aaa;
   }
 
 
