@@ -34,7 +34,7 @@ app.models.state = Backbone.Model.extend({
     return filtered;
   },
   _setCompare: function() {
-    this.set('compare', app.compare.pluck('_id').join(','));
+    this.set('compare', app.compare.pluck('_id'));
   },
   _setSubjects: function() {
     var subjects = app.subjects.selected().map(function(model) {
