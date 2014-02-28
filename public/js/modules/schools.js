@@ -163,9 +163,6 @@ app.views.performance = Backbone.View.extend({
       var elems = selected.map(this.generateSubject);
       var fragment = app.utils.arrayToFragment(elems);
       this.$el.append(fragment);
-      // deferring _fixOverlaps significantly increases
-      // perceived performance.
-      _.defer(function() { self._fixOverlaps(elems); });
     } else {
       this.$el.html('<p>No subjects selected.</p>');
     }
@@ -203,17 +200,6 @@ app.views.performance = Backbone.View.extend({
       });
     }
     return subject;
-  },
-  _fixOverlaps: function(elems) {
-    elems.forEach(function(elem) {
-      var $elem = $(elem);
-      if (!$elem.hasClass('no-entries') && !$elem.hasClass('suppressed')) {
-        var $AtoC = $elem.find('.a-c span');
-        var $NR = $elem.find('.no-result span');
-        var overlap = app.utils.overlap;
-        if (overlap($AtoC[0], $NR[0])) $NR.hide();
-      }
-    });
   },
   _onFocus: function(name) {
     this.elements[name].classList.add('focus');
