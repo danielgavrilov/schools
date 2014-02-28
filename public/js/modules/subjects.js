@@ -142,10 +142,10 @@ app.collections.subjects = Backbone.Collection.extend({
     var visible = this.filter(function(model) {
       return model.get('count') > 0 || model.get('selected');
     });
-    if (visible.length > 25) return this._intelligentFilter(visible);
+    if (visible.length > 25) return this._hideUnpopular(visible);
     else return visible;
   },
-  _intelligentFilter: function(models) {
+  _hideUnpopular: function(models) {
     var softLimit = 20;
     var grouped = _.groupBy(models, function(model) { return model.get('count'); });
     for (var i = 1; i < 10; i++) {
