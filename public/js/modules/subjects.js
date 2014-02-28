@@ -108,20 +108,10 @@ app.collections.subjects = Backbone.Collection.extend({
     }, 10));
   },
   resetCounts: function(counts) {
-    this._setCounts(counts);
-  },
-  addCounts: function(counts) {
-    this._setCounts(counts, true);
-  },
-  _setCounts: function(counts, add) {
     this.each(function(subject) {
       var name = subject.get('name');
-      var current = add ? subject.get('count') : 0;
-      if (name in counts) {
-        subject.set('count', counts[name] + current);
-      } else if (!add) {
-        subject.set('count', 0);
-      }
+      if (name in counts) subject.set('count', counts[name]);
+      else subject.set('count', 0);
     });
     this.trigger('counts');
   },
