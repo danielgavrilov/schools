@@ -392,7 +392,8 @@ tbody.guide td {
 
 .guide .a-a-label,
 .guide .a-c-label,
-.guide .no-result-label {
+.guide .no-result-label,
+.guide .d-e-label {
   font-size: 14px;
   font-weight: 600;
   text-transform: none;
@@ -411,9 +412,16 @@ tbody.guide td {
   width: 30%;
   background-color: #d2d2d2;
 }
+.guide .d-e-label {
+  font-weight: 400;
+  color: #bbb;
+  left: 60%;
+  width: 27%;
+  text-align: center;
+}
 .guide .no-result-label {
   right: 0;
-  width: 15%;
+  width: 13%;
   background-color: #d2d2d2;
   text-align: left;
 }
