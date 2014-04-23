@@ -1,3 +1,8 @@
+# This is the "trainslation" table for subject names...
+
+# ...because, some of the subject names in the dataset unnecessarily long, rarely used 
+# or simply weird. "Business  Studies:Single"?!
+
 subject_map = {
     "Accounting/Finance": "Accounting",
     "Additional Mathematics": "Additional Maths",
@@ -25,7 +30,7 @@ subject_map = {
     # "Chinese": "",
     # "Classical Civilisation": "",
     # "Classical Greek": "",
-     "Classics (General)": "Classics",
+    "Classics (General)": "Classics",
     # "Communication Studies": "",
     "Computer Studies/Computing": "Computing",
     # "Critical Thinking": "",

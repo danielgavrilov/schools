@@ -42,21 +42,12 @@ app.utils.elementFromHTML = function(html) {
     return temp.firstElementChild;
 };
 
-app.utils.arrayToFragment = function(array) {
+app.utils.arrayToFragment = function(elements) {
   var fragment = document.createDocumentFragment();
-  array.forEach(function(el) {
+  elements.forEach(function(el) {
     fragment.appendChild(el);
   });
   return fragment;
-};
-
-app.utils.overlap = function(elem1, elem2) {
-  var rect1 = elem1.getBoundingClientRect();
-  var rect2 = elem2.getBoundingClientRect();
-  return !(rect1.right < rect2.left || 
-           rect1.left > rect2.right || 
-           rect1.bottom < rect2.top || 
-           rect1.top > rect2.bottom);
 };
 
 app.utils.toFixed = function(num, dp) {

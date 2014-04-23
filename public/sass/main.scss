@@ -126,14 +126,17 @@ h1 {
  * =============================================================================
 */
 
+.sidebar {
+  float: left;
+  width: 210px;
+}
+
 /* -----------------------------------------------------------------------------
  * Subjects filter
  */
 
 .subjects-filter {
-  float: left;
   background-color: #f1f1f1;
-  width: 210px;
   position: relative;
   padding: 12px;
   margin-bottom: 30px;
@@ -146,7 +149,6 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin: 0 0 8px;
-  
     text-align: center;
 }
 
@@ -256,6 +258,36 @@ h1 {
 }
 
 /* =============================================================================
+ | MAP
+ * =============================================================================
+*/
+
+.map {}
+
+#map {
+  height: 210px;
+  background: #eee;
+  margin-bottom: 30px;
+}
+
+.map .legend h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.map .legend h3 {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+/* =============================================================================
  | RESULTS
  * =============================================================================
 */
@@ -279,13 +311,13 @@ h1 {
 }
 
 .schools th {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.2;
   color: white;
   text-align: left;
   border-left: 1px solid #888;
-  padding: 8px 7px 5px;
+  padding: 6px 7px 5px;
   vertical-align: bottom;
   position: relative;
   cursor: default;
@@ -295,6 +327,7 @@ h1 {
   }
 
   .schools th small {
+    font-size: 85%;
     display: block;
   }
 
@@ -367,20 +400,20 @@ tbody.guide td {
 }
 
 .guide .g-performance {
-  padding: 40px 0 6px;
+  padding: 28px 0 6px;
 }
 
 .guide .explanation {
   font-size: 13px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1;
   color: #666;
   text-transform: none;
   text-align: center;
   margin: 0;
   padding: 0;
   position: absolute;
-  bottom: 110%;
+  bottom: -10%;
   left: 0;
   right: 0;
 }
@@ -405,7 +438,7 @@ tbody.guide td {
 .guide .a-a-label {
   left: 0;
   width: 30%;
-  background-color: #888;
+  background-color: #777;
   color: white;
 }
 .guide .a-c-label {
@@ -431,6 +464,21 @@ tbody.guide td {
   position: relative;
 }
 
+.guide td.national-avg {
+  text-align: center;
+  padding-top: 0;
+  vertical-align: top;
+}
+
+.guide .national-avg div {
+  font-weight: 600;
+  background-color: #f3f3f3;
+  padding-top: 15px;
+  padding-bottom: 3px;
+  border-bottom: 1px dotted #999;
+  display: inline-block;
+}
+
 
 /* -----------------------------------------------------------------------------
  * School (table row)
@@ -441,10 +489,11 @@ tbody {
 }
 
 .school {
-  height: 51px;
+  height: 48px;
 }
-  .school:hover {
-    background-color: rgba(0,0,0,.025);
+  .school:hover,
+  .school.hover {
+    background-color: rgba(0,0,0,.05);
   }
 
 .schools td {
@@ -483,9 +532,7 @@ td.performance {
 }
 
 .schools .aps-entry {
-  padding-top: 27px;
-  padding-bottom: 7px;
-  vertical-align: top;
+  vertical-align: text-top;
 }
 
 .aps-entry-mean {
@@ -526,12 +573,8 @@ td.performance {
 }
 
 td.compare-col {
+  vertical-align: top;
   text-align: center;
-}
-
-.add-compare,
-.remove-compare {
-  font-size: 14px;
 }
 
 td.sorted {
@@ -794,75 +837,79 @@ section.grayscale .entries {
 }
 
 /* -----------------------------------------------------------------------------
- * APS entry histogram
+ * Grades
  */
 
 .aps-entry-content {
   position: relative;
 }
 
-.aps-entry-histogram {
-  height: 24px;
+.aps-entry .grade {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: white;
+  padding: 0 4px;
 }
 
-.aps-entry-histogram .wrap {
-  float: left;
-  position: relative;
-  height: 100%;
-}
-
-.aps-entry-histogram .bar {
-  background-color: rgba(0,0,0,.09);
-  margin-right: 1px;
+.aps-entry .bar {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  top: 4px;
+  height: 20px;
 }
 
-.aps-entry .marker {
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1;
-  padding: 0 3px;
+.bar.right {
+  text-align: right;
+}
+
+.A .bar { background: #0d8a00; }
+.B .bar { background: #51b546; }
+.C .bar { background: #8a8a8a; }
+.D .bar { background: #c46e6e; }
+.E .bar { background: #c10e0e; }
+
+.C .pull-right,
+.C .pull-left {
   position: absolute;
-  top: -15px;
-  bottom: 0;
+  color: #888;
 }
 
-.better .marker {
-  color: #00A527;
-  border-right: 2px solid #00A527;
-  margin-right: -1px;
+.C .pull-right {
+  left: 100%;
 }
 
-.worse .marker {
-  color: #b60000;
-  border-left: 2px solid #b60000;
-  margin-left: -1px;
-}
-
-.aps-entry .area {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,.05);
-}
-
-.better .area {
-  background: linear-gradient(to bottom, rgba(0,222,52,0) 0%,rgba(0,222,52,0.3) 100%);
-}
-
-.worse .area {
-  background: linear-gradient(to bottom, rgba(255,0,0,0) 0%,rgba(255,0,0,0.25) 100%);
+.C .pull-left {
+  right: 100%;
 }
 
 /* -----------------------------------------------------------------------------
  * Compare
  */
 
-.results .remove-compare {
-  display: none;
+.add-compare, .remove-compare {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  line-height: 24px;
+  background: rgba(0,0,0,.2);
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  width: 32px;
+  height: 26px;
+  text-align: center;
+}
+
+.add-compare:hover {
+  background: #0d8a00;
+}
+
+.remove-compare {
+  background: #C22727;
+}
+
+.remove-compare:hover {
+  background: #A71818;
 }
 
 .compare {
@@ -880,6 +927,7 @@ section.grayscale .entries {
   line-height: 17px;
 }
 
+.results .remove-compare,
 .compare .add-compare {
   display: none;
 }

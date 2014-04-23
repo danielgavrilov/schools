@@ -8,6 +8,7 @@ function onError(callback) {
 }
 
 app.get.byURNs = function(urns, callback) {
+  if (!urns.length) return callback(null);
   $.ajax({
     dataType: 'json',
     url: '/api/schools',
@@ -21,14 +22,15 @@ app.get.byURNs = function(urns, callback) {
   });
 };
 
-app.get.byLocation = function(location, callback) {
+app.get.byLocation = function(location, options, callback) {
   $.ajax({
     dataType: 'json',
     url: '/api/schools/near',
     data: {
       lng: location[0],
       lat: location[1],
-      limit: 20
+      limit: options.limit,
+      distance: options.distance
     },
     success: function(json) {
       callback(null, json.results, json);

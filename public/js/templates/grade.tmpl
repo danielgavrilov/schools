@@ -1,0 +1,5 @@
+<div class="bar <%= data.classed %>" style="left: <%= data.left %>; width: <%= data.width %>">
+  <span class="grade <% if (data.grade === 'C') print("pull-"+data.classed) %>">
+    <%= data.grade %>
+  </span>
+</div>

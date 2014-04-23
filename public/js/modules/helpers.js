@@ -27,4 +27,22 @@ app.helpers.getSubjectCounts = function(schools) {
   return counts;
 };
 
+var grades = {
+  'A*': 300,
+  'A': 270,
+  'B': 240,
+  'C': 210,
+  'D': 180,
+  'E': 150
+};
+
+app.helpers.grade = function(pointScore) {
+  for (var grade in grades) {
+    if (pointScore < grades[grade] + 15 &&
+        pointScore >= grades[grade] - 15) {
+      return grade;
+    }
+  }
+};
+
 app.helpers.apsInterpolate = app.utils.uninterpolateClamp(app.preload.aps.min, app.preload.aps.max);

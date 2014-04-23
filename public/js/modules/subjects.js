@@ -18,6 +18,7 @@ app.models.subject = Backbone.Model.extend({
     this.view = new app.views.subject({model: this});
   },
   select: function() {
+    if (this.get('selected')) return this;
     var color = app.colors.getLeastUsed();
     app.colors.increase(color);
     this.set({
@@ -48,22 +49,26 @@ app.models.subject = Backbone.Model.extend({
 app.views.subject = Backbone.View.extend({
   template: app.templates.subject,
   initialize: function() {
-    _.bindAll(this, '_mouseenter', '_mouseleave');
     this.listenTo(this.model, 'select', this.select);
     this.listenTo(this.model, 'deselect', this.deselect);
     this.listenTo(this.model, 'change:count', this.updateCount);
     this.render();
   },
   events: {
-    'change': '_onChange',
-    'mouseenter': '_mouseenter',
-    'mouseleave': '_mouseleave'
+    'change': function(event) {
+      event.target.checked ? this.model.select() : this.model.deselect();
+    },
+    'mouseenter': function(event) {
+      this.model.focus();
+    },
+    'mouseleave': function(event) {
+      this.model.unfocus();
+    }
   },
   render: function() {
     var html = this.template(this.model.toJSON());
     this.setElement(html);
     this.$checkbox = this.$('input[type=checkbox]');
-    this.$count = this.$('i');
     this.updateCount();
     return this;
   },
@@ -83,18 +88,8 @@ app.views.subject = Backbone.View.extend({
     var count = this.model.get('count');
     if (count < 1) this.$el.addClass('zero');
     else this.$el.removeClass('zero');
-    this.$count.html(count);
     return this;
-  },
-  _onChange: function(event) {
-    event.target.checked ? this.model.select() : this.model.deselect();
-  },
-  _mouseenter: function(event) {
-    this.model.focus();
-  },
-  _mouseleave: function(event) {
-    this.model.unfocus();
-  },
+  }
 });
 
 
@@ -146,12 +141,13 @@ app.collections.subjects = Backbone.Collection.extend({
     else return visible;
   },
   _hideUnpopular: function(models) {
-    var softLimit = 20;
+    var minimum = 18;
     var grouped = _.groupBy(models, function(model) { return model.get('count'); });
-    for (var i = 1; i < 10; i++) {
+    var max = _.max(models.map(function(model) { return model.get('count'); }));
+    for (var i = 1; i < max; i++) {
       var length = grouped[i] && grouped[i].length;
       if (length) {
-        if (models.length - length > softLimit) {
+        if (models.length - length > minimum) {
           var unselected = grouped[i].filter(function(model) {
             return !model.get('selected');
           });

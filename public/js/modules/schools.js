@@ -1,20 +1,11 @@
 app.models.school = Backbone.Model.extend({
   idAttribute: '_id',
+  defaults: {
+    hover: false
+  },
   initialize: function() {
-    _.bindAll(this, '_loadedCheck');
-    this.loading = false;
-    this.on('change', _.debounce(this._loadedCheck, 10));
     this.listenTo(app.state, 'change:location', this.updateDistance);
-    this.onload(this._parseData);
-  },
-  // Whether the model is loaded.
-  // Chosen "address" property simply because it exists for every school.
-  loaded: function() {
-    return !!this.get('address');
-  },
-  onload: function(callback) {
-    if (this.loaded()) callback.call(this);
-    else this.on('loaded', callback);
+    this._parseData();
   },
   getSubject: function(name) {
     try {
@@ -31,12 +22,6 @@ app.models.school = Backbone.Model.extend({
       this.set('distance', distance);
     } catch(e) {}
   },
-  _loadedCheck: function() {
-    if (this.loading && this.loaded()) {
-      this.loading = false;
-      this.trigger('loaded');
-    }
-  },
   _parseData: function() {
     var totalSubjects;
     this.set('supertype', app.helpers.getSuperType(this.get('type')));
@@ -50,21 +35,18 @@ app.views.school = Backbone.View.extend({
   tagName: 'tr',
   className: 'school',
   template: app.templates.school,
-  loadingTemplate: app.templates.schoolLoading,
   initialize: function() {
-    if (this.model.loaded()) {
-      this.render();
-    } else {
-      this.renderLoading();
-      this.listenTo(this.model, 'loaded', this.render);
-    }
+    this.render();
     this.listenTo(this.model, 'change:distance', this.updateDistance);
   },
   events: {
+    'mouseenter': '_mouseEnter',
+    'mouseleave': '_mouseLeave',
     'click .add-compare': '_addToCompare',
     'click .remove-compare': '_removeFromCompare'
   },
   render: function() {
+    var self = this;
     var data = this.model.toJSON();
     var html = this.template(this._processData(data));
     this.$el.html(html);
@@ -76,31 +58,31 @@ app.views.school = Backbone.View.extend({
       el: this.$('td.performance'),
       model: this.model
     });
-  },
-  renderLoading: function() {
-    var html = this.loadingTemplate(this.model.toJSON());
-    this.$el.html(html);
+    this.model.on('change:hover', function(model, hoverValue) {
+      self.$el.toggleClass('hover', hoverValue);
+    });
   },
   renderAPS: function() {
-    var html = app.templates.aps();
     try {
       var score = this.model.get('performance')[YEAR]['aps']['a-level']['entry'];
       if (typeof score !== 'number') throw new Error('School does not have score');
+      var grade = app.helpers.grade(score);
       var mean = app.preload.aps.mean;
-      var better = score >= mean;
+      var aboveAverage = score >= mean;
       var percentage = app.utils.toPercentage;
       var interpolate = app.helpers.apsInterpolate;
-      var left = interpolate(better ? mean : score);
+      var left = interpolate(aboveAverage ? mean : score);
       var width = Math.abs(interpolate(score) - interpolate(mean));
-      html += app.templates.apsMarker({
-        better: better,
-        score: app.utils.toNumber(score, 1),
-        marker: percentage(better ? 1-interpolate(score) : interpolate(score)),
+      var classed = aboveAverage ? 'right' : 'left';
+      var html = app.templates.grade({
+        aboveAverage: aboveAverage,
+        grade: grade,
         left: percentage(left),
-        width: percentage(width)
+        width: percentage(width),
+        classed: classed
       });
+      this.$aps.html(html).addClass(grade);
     } catch(e) {}
-    this.$aps.html(html).addClass(better ? 'better' : 'worse');
   },
   updateDistance: function() {
     var value = this.model.get('distance');
@@ -113,6 +95,12 @@ app.views.school = Backbone.View.extend({
     if (this.performance) this.performance.remove();
     delete this.performance;
     return Backbone.View.prototype.remove.call(this);
+  },
+  _mouseEnter: function() {
+    this.model.set('hover', true);
+  },
+  _mouseLeave: function() {
+    this.model.set('hover', false);
   },
   _addToCompare: function() {
     app.compare.add(this.model);
@@ -211,43 +199,8 @@ app.views.performance = Backbone.View.extend({
 
 app.collections.cache = Backbone.Collection.extend({
   model: app.models.school,
-  initialize: function(models, options) {
-    _.bindAll(this, 'load', '_fetchModels');
-    this.names = options.names;
-    this.on('add reset get', _.debounce(this._fetchModels, 10));
-  },
-  load: function(urn) {
-    var model = this.get(urn);
-    if (!model && (urn in this.names)) {
-      this.add({
-        _id: urn,
-        name: this.names[urn]
-      });
-      model = this.get(urn);
-    }
-    this.trigger('get');
-    return model;
-  },
-  _fetchModels: function() {
-    var self = this;
-    var urns = [];
-    var notLoaded = this.filter(function(model) {
-      return !model.loaded() && !model.loading;
-    });
-    notLoaded.forEach(function(model) {
-      model.loading = true;
-      urns.push(model.id);
-    });
-    if (urns.length) app.get.byURNs(urns, function(err, schools) {
-      if (err) return notLoaded.forEach(function(model) {
-        model.loading = false;
-      });
-      self.set(schools, {remove: false});
-    });
-  },
   getByURNs: function(urns) {
-    if (!urns.length) return [];
-    var models = urns.map(this.load);
+    var models = _.map(urns, this.get, this);
     return _.compact(models);
   }
 });
@@ -259,7 +212,7 @@ app.collections.schools = Backbone.Collection.extend({
     var debouncedSort = _.debounce(function() {
       if (self.comparator) self.sort();
     }, 10);
-    this.on('change', debouncedSort);
+    this.on('change:distance', debouncedSort);
     this.listenTo(app.subjects, 'select deselect', debouncedSort);
   },
   addURNs: function(urns) {
@@ -276,7 +229,7 @@ app.collections.schools = Backbone.Collection.extend({
 app.collections.results = app.collections.schools.extend({
   initialize: function() {
     this.filters = [];
-    app.collections.schools.prototype.initialize.apply(this, arguments);
+    app.collections.schools.prototype.initialize.apply(this, arguments); // ugliness. there's probably a better way.
   },
   visible: function() {
     var models = this.toArray();
@@ -315,9 +268,9 @@ app.views.schools = Backbone.View.extend({
     this.listenTo(this.compare, 'remove', this._onRemove);
     this.listenTo(this.results, 'remove', this._onRemove);
     this.listenTo(this.compare, 'add remove reset sort', this._updateCompare);
-    this.listenTo(this.results, 'add remove reset sort update loaded', this._updateResults);
-    this.listenTo(this.compare, 'add remove reset update loaded', this._updateSubjectCounts);
-    this.listenTo(this.results, 'add remove reset update loaded', this._updateSubjectCounts);
+    this.listenTo(this.results, 'add remove reset sort update', this._updateResults);
+    this.listenTo(this.compare, 'add remove reset update', this._updateSubjectCounts);
+    this.listenTo(this.results, 'add remove reset update', this._updateSubjectCounts);
     this.results.addFilter(function(model) {
       return !self.compare.contains(model);
     });

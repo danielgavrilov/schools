@@ -4,7 +4,6 @@ var reLikePostcode = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?(\d([A-Z]{1,2})?)?$/i;
 app.views.search = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, '_handleResponse', '_handleResponseError');
-    this._previousQuery = '';
     this._debouncedQuery = _.debounce(this.query, 200);
     this.$input = this.$el.find('.search-input');
     this.$useLocation = this.$el.find('.use-location');
@@ -24,11 +23,9 @@ app.views.search = Backbone.View.extend({
     }
   },
   query: function(query) {
-    if (query === this._previousQuery) return;
     var len = query.length;
     if (rePostcode.test(query)) this.byPostcode(query);
     else if (len === 0 || (len >= 3 && !reLikePostcode.test(query))) this.byName(query);
-    this._previousQuery = query;
   },
   byName: function(query) {
     this._updateQuery(query);
@@ -39,36 +36,48 @@ app.views.search = Backbone.View.extend({
     if (query.length > 0) {
       for (var urn in names) {
         if (re.test(names[urn])) urns.push(urn);
-        if (urns.length >= 20) break;
+        if (urns.length >= 50) break;
       }
     }
-    app.results.resetURNs(urns);
-    app.schools.hideDistance();
+    var urnsToLoad = urns.filter(function(urn) {
+      return !app.cache.get(urn);
+    });
+    app.schools.loadingStart();
+    app.get.byURNs(urnsToLoad, function(err, schools) {
+      app.cache.add(schools);
+      app.schools.hideDistance();
+      app.results.resetURNs(urns);
+      app.schools.loadingEnd();
+      app.map.fitMarkers(true);
+    });
   },
   byPostcode: function(postcode) {
     var self = this;
     this._updateQuery(postcode);
     app.schools.loadingStart();
     app.get.postcode(postcode, function(err, location) {
-      if (!err) self.byLocation(location, {postcode: true});
+      if (!err) self.byLocation(location, {postcode: true, centerMap: true, limit: 20});
     });
   },
   byLocation: function(location, options) {
     var self = this;
     options = options || {};
     app.schools.loadingStart();
-    app.get.byLocation(location, function(err, schools, resp) {
+    app.get.byLocation(location, options, function(err, schools, resp) {
       var urns = _.pluck(schools, '_id');
       var location = resp.near && resp.near.location;
+      if (!app.results.comparator) app.schools.sorting.sort('distance', 'asc');
       app.cache.add(schools);
-      app.results.resetURNs(urns);
       app.schools.showDistance();
+      app.results.resetURNs(urns);
       app.schools.loadingEnd();
       app.state.set({
         lng: location[0],
         lat: location[1]
       });
       if (!options.postcode) self._updateQuery('');
+      if (options.centerMap) app.map.fitMarkers(true);
+      if (options.distance) app.state.set('distance', options.distance);
     });
   },
   byCurrentLocation: function(event) {
@@ -78,7 +87,7 @@ app.views.search = Backbone.View.extend({
   },
   _handleResponse: function(response) {
     var location = [response.coords.longitude, response.coords.latitude];
-    this.byLocation(location);
+    this.byLocation(location, {centerMap: true});
   },
   _handleResponseError: function(err) {
     // err.code:
@@ -87,6 +96,7 @@ app.views.search = Backbone.View.extend({
     // TIMEOUT (3) if the network is up but it takes too long to calculate the user’s position. How long is “too long”? I’ll show you how to define that in the next section.
   },
   _updateQuery: function(value) {
+    // The IF statement prevents "cursor-jumping" bugs
     if (value != this.$input.val()) this.$input.val(value);
     app.state.set({
       q: value

@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description" content="Find and compare A-level schools">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width">
 
   <title>A-level schools</title>
 
@@ -24,14 +24,14 @@
         </div>
         <section class="type-filter">
           <h2>Show</h2>
-          <label><input type="checkbox" class="filter" data-filter="independent" checked> Independent</label>
-          <label><input type="checkbox" class="filter" data-filter="state-funded" checked> State-funded</label>
-          <label><input type="checkbox" class="filter" data-filter="special" checked>
+          <label><input type="checkbox" class="filter" data-filter="independent" checked> Independent schools</label>
+          <label><input type="checkbox" class="filter" data-filter="state-funded" checked> State-funded schools</label>
+          <!-- <label><input type="checkbox" class="filter" data-filter="special" checked>
             Special
             <span class="help tooltip">
               ?<p class="message wide">Schools for students with special needs.</p>
             </span>
-          </label>
+          </label> -->
           <label class="separated"><input type="checkbox" class="filter" data-filter="single-sex"> Exclude single-sex</label>
         </section>
       </form>
@@ -39,23 +39,21 @@
   </header>
 
   <div class="inner">
-    <section class="subjects-filter">
-      <h2>
-        Subjects
-        <span class="help tooltip">
-          ?<div class="message wider">
-            Number of schools displayed on the list that did the subject.
-          </div>
-        </span>
-        <form>
-          <input class="search-subjects" type="search" placeholder="Find a subject">
-        </form>
-      </h2>
-      <div class="subjects"></div>
+    <section class="sidebar">
+      <div id="map"></div>
+      <section class="subjects-filter">
+        <h2>
+          Subjects
+          <form>
+            <input class="search-subjects" type="search" placeholder="Find a subject">
+          </form>
+        </h2>
+        <div class="subjects"></div>
+      </section>
     </section>
 
     <section class="main">
-      <section class="schools no-distance">
+      <section class="schools">
         <table>
           <thead>
             <tr>
@@ -63,7 +61,7 @@
               <th style="width: 35%" class="sortable" data-sort="performance">Grades achieved</th>
               <th class="sortable" data-sort="total-a2">Total A2 students</th>
               <th class="sortable" data-sort="total-subjects">Total subjects</th>
-              <th style="width: 15%" class="sortable" data-sort="aps-entry">Average point score per entry</th>
+              <th style="width: 15%" class="sortable" data-sort="aps-entry">Average grade <br>(all subjects)</th>
               <th class="sortable" data-sort="supertype" data-order="asc">Type</th>
               <th class="as-distance sortable" data-sort="distance" data-order="asc">Distance <small>in miles</small></th>
               <th>Compare</th>
@@ -72,24 +70,22 @@
           <tbody class="guide">
             <tr>
               <td class="g-name">
-                <h3>How to read<br>the table</h3>
+                <h3>Table guide</h3>
               </td>
               <td class="g-performance">
                 <div class="subject">
-                  <p class="explanation" style="bottom: 150%">Number of students who achieved</p>
-                  <div class="d-e-label">D-E</div>
+                  <p class="explanation" style="bottom: 125%">Number of students who achieved</p>
                   <div class="a-c-label">A*-C</div>
                   <div class="a-a-label">A*-A</div>
                   <div class="no-result-label">U</div>
                   <div class="entries entries-label">
                     <p class="explanation">Total<br>students</p>
-                    10
                   </div>
                 </div>
               </td>
               <td></td>
               <td></td>
-              <td class="aps-entry-mean">National average</td>
+              <td class="aps-entry-mean national-avg"><div>National average</div></td>
               <td></td>
               <td class="as-distance"></td>
               <td></td>
@@ -114,6 +110,7 @@
     var YEAR = "<%= YEAR %>";
 
   </script>
+  <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDYBT1gflsqoqJwfuGuNWa6Wq1QGO_SAyw&country=uk&sensor=false" type="text/javascript"></script>
   <script src="/build/app.js" type="text/javascript"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -1,13 +1,24 @@
 @media all and (max-width: 1000px) {
 
-  .subjects-filter {
+  .sidebar {
     float: none;
     width: auto;
   }
 
+  #map {
+    float: left;
+    width: 210px;
+    margin-bottom: 20px;
+  }
+
+  .subjects-filter {
+    margin-left: 230px;
+    margin-bottom: 20px;
+  }
+
   .subjects-filter .subjects {
-    column-count: 5;
-    column-gap: 5px;
+    column-count: 4;
+    column-gap: 4px;
   }
 
   .subjects-filter label {
@@ -28,6 +39,14 @@
 
   .main {
     margin-left: 0;
+  }
+
+  td.name {
+    padding-left: 24px;
+  }
+
+  .attributes {
+    margin-right: 7px;
   }
 
 }

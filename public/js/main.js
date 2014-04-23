@@ -1,7 +1,5 @@
 app.colors = new app.constructors.colors(app.preload.colornames);
-app.cache = new app.collections.cache(null, {
-  names: app.preload.schoolnames
-});
+app.cache = new app.collections.cache;
 app.subjects = new app.collections.subjects(app.preload.subjectnames.sort().map(function(name) {
   return {name: name};
 }));
@@ -39,6 +37,7 @@ $(function() {
     el: $('.type-filter')
   });
   
+  app.map = new Map($('#map')[0]);
   app.state = new app.models.state;
   app.router = new app.routers.main;
 

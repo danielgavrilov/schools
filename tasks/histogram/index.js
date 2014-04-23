@@ -24,30 +24,16 @@ function getScores(callback) {
   });
 };
 
-// round to 2 significant figures
-function twoSF(n) {
-    return +(n).toPrecision(2);
-}
-
 module.exports = function(callback) {
   getScores(function(scores) {
 
     var percent = d3.format(".5%");
     var mean = d3.mean(scores);
     var median = d3.median(scores);
-    var q1 = d3.quantile(scores, .25);
-    var q3 = d3.quantile(scores, .75);
-    var iqr = q3 - q1;
-
-    // Remove outliers.
-    // They are taken into account when calculating mean and median,
-    // but for the purpose of making the histogram smaller, are not plotted.
-    scores = scores.filter(function(n) { 
-        return n > twoSF(q1 - iqr*1.5) && n < twoSF(q3 + iqr*1.5);
-    });
 
     var x = d3.scale.linear()
-        .domain(d3.extent(scores))
+        // 150 point score = Grade E (minimum grade)
+        .domain([150, d3.max(scores)])
         .range([0, 1])
         .nice();
 

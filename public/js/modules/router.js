@@ -7,9 +7,10 @@ app.routers.main = Backbone.Router.extend({
   },
   parseParams: function(params) {
     params = params || {};
-    var typeArray = ['compare', 'exclude', 'subjects'];
+    var isArray = ['compare', 'exclude', 'subjects'];
+    params.p = decodeURIComponent(params.p);
     for (var prop in params) {
-      if (_.contains(typeArray, prop)) { 
+      if (_.contains(isArray, prop)) { 
         params[prop] = params[prop].split(',').map(decodeURIComponent);
       }
     }
@@ -21,7 +22,7 @@ app.routers.main = Backbone.Router.extend({
     if (params.q) app.search.query(params.q);
     // lat, lng
     else if (params.lng != null && params.lat != null) {
-      app.search.byLocation([params.lng, params.lat]);
+      app.search.byLocation([params.lng, params.lat], {distance: params.distance});
     } 
     // sort
     if (params.sort) {
@@ -46,6 +47,7 @@ app.routers.main = Backbone.Router.extend({
     var props = [];
     for (var prop in params) {
       var value = params[prop];
+      if (prop === 'q') value = encodeURIComponent(value);
       if (_.isArray(value)) { 
         value = value.map(encodeURIComponent).join(',');
       }

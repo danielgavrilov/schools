@@ -1,28 +1,38 @@
+var config = require('../config');
 var mongojs = require('mongojs');
 var express = require('express');
-var db = mongojs(process.env.DATABASE_URL, ['schools']);
+var db = mongojs(config.DATABASE_URL, ['schools']);
 var schools = db.schools;
 var app = module.exports = express();
 
 function validURN(urn) {
-  urn = urn.toString().trim();
   if (isNaN(urn) || urn.length !== 6) return;
   return urn;
 }
 
-function between(lower, number, upper) {
-  number = +number;
-  if (isNaN(number) || number > upper) return upper;
-  if (number < lower) return lower;
-  return number;
+function between(lower, upper, defaultValue) {
+  return function(n) {
+    n = +n;
+    if (isNaN(n)) return defaultValue;
+    if (n > upper) return upper;
+    if (n < lower) return lower;
+    return n;
+  };
 }
 
+var schoolLimit = between(1, 100, 50);
+var distanceLimit = between(0, 80000, 80000);
+
 function positionFromURN(req, res, next) {
+
   if (!req.query.urn) return next();
+
   var urn = validURN(req.query.urn);
+
   if (!urn) return res.jsonp(400, { 
     error: "Invalid URN: must be a 6-digit integer."
   });
+
   schools.find({_id: urn}, {location: 1}, {limit: 1}, function(err, results) {
     if (err) return next(err);
     try {
@@ -40,11 +50,14 @@ function positionFromURN(req, res, next) {
 
 function parseLngLat(req, res, next) {
   if (!req.query.lat || !req.query.lng) return next();
+
   var lng = parseFloat(req.query.lng);
   var lat = parseFloat(req.query.lat);
+
   if (isNaN(lng) || isNaN(lat)) return res.jsonp(400, {
     error: "Invalid lat/lng coordinates provided."
   });
+
   req.lng = lng;
   req.lat = lat;
   next();
@@ -58,13 +71,17 @@ app.all('*', function(req, res, next) {
 });
 
 app.get('/schools', function(req, res, next) {
+
   var urns;
+
   if (req.query.urns) {
     urns = req.query.urns.split(',');
     urns = urns.map(validURN).filter(function(urn) { return urn != null; });
   }
+
   var query = urns ? {_id: {$in: urns}} : {};
-  var limit = between(1, req.query.limit, 50);
+  var limit = schoolLimit(req.query.limit);
+
   schools.find(query, {limit: limit}, function(err, results) {
     if (err) return next(err);
     res.jsonp({results: results});
@@ -72,12 +89,15 @@ app.get('/schools', function(req, res, next) {
 });
 
 app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) {
+  
   if (req.lng === undefined || req.lat === undefined) return res.jsonp(400, {
     error: "No valid location was provided."
   });
-  var distance = between(1, distance, 80000);
-  var limit = between(1, req.query.limit, 50);
+
+  var distance = distanceLimit(req.query.distance);
+  var limit = schoolLimit(req.query.limit);
   var coords = [req.lng, req.lat];
+
   schools.find({ 
     location: {
       $near: { 
@@ -90,7 +110,7 @@ app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) 
     }
   }, {limit: limit}, function(err, results) {
     if (err) return next(err);
-    res.jsonp({ 
+    res.jsonp({
       near: {
         location: coords
       },

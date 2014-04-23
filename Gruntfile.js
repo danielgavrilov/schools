@@ -99,9 +99,9 @@ module.exports = function(grunt) {
         files: 'tasks/colors/*',
         tasks: ['colors']
       },
-      aps: {
-        files: 'tasks/aps/*',
-        tasks: ['aps']
+      histogram: {
+        files: 'tasks/histogram/*',
+        tasks: ['histogram']
       },
       preload: {
         files: 'tasks/preload/*',
@@ -138,13 +138,13 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('aps', 'Generate APS entry histogram', function() {
+  grunt.registerTask('histogram', 'Generate APS entry histogram', function() {
     var done = this.async();
-    var aps = require('./tasks/aps');
-    aps(function(data) {
+    var histogram = require('./tasks/histogram');
+    histogram(function(data) {
       grunt.file.write('tasks/preload/aps.js', JSON.stringify(data.measures));
-      grunt.file.write('public/js/templates/aps.tmpl', data.html);
-      grunt.file.write('public/sass/aps.scss', data.css);
+      grunt.file.write('public/js/templates/histogram.tmpl', data.html);
+      grunt.file.write('public/sass/histogram.scss', data.css);
       done();
     });
   });
@@ -176,7 +176,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('css', ['sass', 'autoprefixer']);
   grunt.registerTask('js', ['uglify', 'cleanmap']);
-  grunt.registerTask('generate', ['colors', 'schools', 'subjects', 'aps', 'preload']);
+  grunt.registerTask('generate', ['colors', 'schools', 'subjects', 'preload']);
   grunt.registerTask('default', ['generate', 'css', 'jst', 'js']);
 
 };

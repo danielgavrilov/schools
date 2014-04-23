@@ -43,6 +43,6 @@ app.models.state = Backbone.Model.extend({
     this.set('subjects', subjects);
   },
   _triggerLocation: _.debounce(function() {
-    this.trigger('change:location');
+    this.trigger('change:location', [this.get('lng'), this.get('lat')]);
   }, 10)
 });
