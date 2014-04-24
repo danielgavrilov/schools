@@ -36,6 +36,8 @@ $(function() {
   app.filters = new app.views.filters({
     el: $('.type-filter')
   });
+
+  app.filters.exclude('special');
   
   app.map = new Map($('#map')[0]);
   app.state = new app.models.state;
