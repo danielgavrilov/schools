@@ -32,7 +32,12 @@ app.routers.main = Backbone.Router.extend({
       app.schools.sorting.sort(key, order); 
     }
     // compare
-    if (params.compare) app.compare.addURNs(params.compare);
+    if (params.compare) {
+      app.get.byURNs(params.compare, function(err, schools) {
+        app.cache.add(schools);
+        app.compare.resetURNs(params.compare);
+      });
+    }
     // exlude (filter)
     if (params.exclude) params.exclude.forEach(function(name) {
       app.filters.exclude(name);
