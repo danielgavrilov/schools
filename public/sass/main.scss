@@ -262,28 +262,32 @@ h1 {
  * =============================================================================
 */
 
-.map {}
+.map-wrapper {
+  position: relative;
+  margin-bottom: 30px;
+}
 
 #map {
   height: 210px;
   background: #eee;
-  margin-bottom: 30px;
 }
 
-.map .legend h2 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 0 0 8px;
+.search-here {
+  font-size: 13px;
+  font-weight: normal;
+  color: white;
   text-align: center;
-}
-
-.map .legend h3 {
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
+  padding: 2px;
+  background: linear-gradient(to bottom, #068cf1 0%, #0473ed 100%);
+  border-radius: 2px;
+  border: none;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 99999;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  cursor: pointer;
 }
 
 
@@ -735,7 +739,7 @@ td.sorted {
 .no-entries,
 .no-entries em,
 .no-entries .entries {
-  color: rgba(0,0,0,.3);
+  color: rgba(0,0,0,.25);
 }
 
 .suppressed.focus,

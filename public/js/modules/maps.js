@@ -1,5 +1,6 @@
 function Map(element, options) {
   var self = this;
+  this.$searchHere = $('.search-here').hide();
   this.ignoreNextBoundChange = false;
   this.searchQueued = false;
   this.map = new google.maps.Map(element, _.extend({}, this.defaults, options));
@@ -107,15 +108,18 @@ Map.prototype.empty = function() {
   this.markers = [];
 };
 
-Map.prototype.searchCenter = function() {
+Map.prototype.searchCenter = function(force) {
   var isNotNameSearch = !app.state.get('q').length;
-  if (isNotNameSearch) {
+  if (isNotNameSearch || force) {
+    this.$searchHere.fadeOut();
     var position = this.map.getCenter();
     var coords = [position.lng(), position.lat()];
     var point = this.map.getBounds().getSouthWest();
     var distance = app.utils.calcDistance(coords, [coords[0], point.lat()], 'km') * 1000;
     distance = Math.round(distance);
     app.search.byLocation(coords, {distance: distance});
+  } else {
+    this.$searchHere.fadeIn();
   }
   this.searchQueued = false;
 };
@@ -123,6 +127,10 @@ Map.prototype.searchCenter = function() {
 Map.prototype.attachEvents = function() {
 
   var self = this;
+
+  this.$searchHere.on('click', function() {
+    self.searchCenter(true);
+  });
 
   function ignore() {
     self.ignoreNextBoundChange = false;
