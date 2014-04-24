@@ -23,31 +23,6 @@ function between(lower, upper, defaultValue) {
 var schoolLimit = between(1, 100, 50);
 var distanceLimit = between(0, 80000, 80000);
 
-function positionFromURN(req, res, next) {
-
-  if (!req.query.urn) return next();
-
-  var urn = validURN(req.query.urn);
-
-  if (!urn) return res.jsonp(400, { 
-    error: "Invalid URN: must be a 6-digit integer."
-  });
-
-  schools.find({_id: urn}, {location: 1}, {limit: 1}, function(err, results) {
-    if (err) return next(err);
-    try {
-      var coords = results[0].location.coordinates;
-      req.lng = coords[0];
-      req.lat = coords[1];
-      next();
-    } catch(e) {
-      res.jsonp(404, { 
-        error: "Location unavailable for the specified school."
-      });
-    }
-  });
-}
-
 function parseLngLat(req, res, next) {
   if (!req.query.lat || !req.query.lng) return next();
 
@@ -88,7 +63,7 @@ app.get('/schools', function(req, res, next) {
   });
 });
 
-app.get('/schools/near', positionFromURN, parseLngLat, function(req, res, next) {
+app.get('/schools/near', parseLngLat, function(req, res, next) {
   
   if (req.lng === undefined || req.lat === undefined) return res.jsonp(400, {
     error: "No valid location was provided."
