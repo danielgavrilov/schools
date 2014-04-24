@@ -856,6 +856,8 @@ section.grayscale .entries {
   position: absolute;
   top: 4px;
   height: 20px;
+  margin-left: -1px;
+  min-width: 1px;
 }
 
 .bar.right {
