@@ -14,8 +14,8 @@ app.views.filters = Backbone.View.extend({
     'change .filter': '_onChange'
   },
   filters: {
-    'independent': function(model) { return model.get('supertype') !== "Independent" },
-    'state-funded': function(model) { return model.get('supertype') !== "State-funded" },
+    'private': function(model) { return model.get('supertype') !== "Private" },
+    'public': function(model) { return model.get('supertype') !== "Public" },
     'special': function(model) { return model.get('supertype') !== "Special" },
     'single-sex': function(model) { 
       var gender = model.get('gender');
