@@ -62,7 +62,7 @@ app.views.search = Backbone.View.extend({
     app.schools.loadingStart();
     app.get.postcode(postcode, function(err, location) {
       if (!err) { 
-        self.byLocation(location, {postcode: true, centerMap: true, limit: 20}); 
+        self.byLocation(location, {postcode: true, centerMap: true, limit: 30, distance: 10000}); 
         app.state.set('distance', null);
       }
     });
