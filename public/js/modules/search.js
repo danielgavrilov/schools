@@ -49,6 +49,11 @@ app.views.search = Backbone.View.extend({
       app.results.resetURNs(urns);
       app.schools.loadingEnd();
       app.map.fitMarkers(true);
+      app.state.set({
+        lat: null,
+        lng: null,
+        distance: null
+      });
     });
   },
   byPostcode: function(postcode) {
@@ -56,7 +61,10 @@ app.views.search = Backbone.View.extend({
     this._updateQuery(postcode);
     app.schools.loadingStart();
     app.get.postcode(postcode, function(err, location) {
-      if (!err) self.byLocation(location, {postcode: true, centerMap: true, limit: 20});
+      if (!err) { 
+        self.byLocation(location, {postcode: true, centerMap: true, limit: 20}); 
+        app.state.set('distance', null);
+      }
     });
   },
   byLocation: function(location, options) {

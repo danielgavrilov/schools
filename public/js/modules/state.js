@@ -3,6 +3,7 @@ app.models.state = Backbone.Model.extend({
     q: '',
     lat: null,
     lng: null,
+    distance: null,
     sort: null,
     compare: [],
     exclude: [],
