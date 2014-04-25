@@ -10,7 +10,7 @@ app.helpers.getSuperType = function(abbr) {
   for (var type in schoolTypes) {
     if (_.contains(schoolTypes[type], abbr)) return type;
   }
-  if (reCollege.test(abbr)) return "Private";
+  if (reCollege.test(abbr)) return "Public";
   return abbr;
 };
 
