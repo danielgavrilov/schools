@@ -34,6 +34,6 @@ If nothing went wrong so far, you should be able to access the server at `http:/
 
 ## Some background
 
-This is my 2013/2014 A-level Computing project. Some bad decisions have been made while building it and its "architecture" is a bit of a mess. I have left it partially unfinished, since some of the features I wanted to implement required a complete rewrite.
+This is my 2013/2014 A-level Computing project. Some bad decisions have been made while building it and its infrastructure is a bit of a mess. I have left it partially unfinished, since some of the features I wanted to implement required a complete rewrite.
 
 If you're making something similar, feel free to make use of whatever "good parts" and ideas you find in this project. Hopefully there are some.
