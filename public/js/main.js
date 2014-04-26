@@ -16,6 +16,8 @@ $(function() {
     $body.addClass('geolocation');
   }
 
+  app.helpers.buildLegend();
+
   // scrolling performance problems
   // $('.schools').find('table').stickyTableHeaders();
 

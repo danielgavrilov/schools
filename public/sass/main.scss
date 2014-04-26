@@ -394,7 +394,7 @@ th.sortable {
 }
 
 tbody.guide td {
-  padding: 10px;
+  padding: 7px;
   border-left: 1px solid transparent;
   vertical-align: middle;
 }
@@ -477,13 +477,27 @@ tbody.guide td {
   vertical-align: top;
 }
 
-.guide .national-avg div {
+.guide .national-avg-label {
+  font-size: 12px;
   font-weight: 600;
+  color: #777;
   background-color: #f3f3f3;
-  padding-top: 15px;
-  padding-bottom: 3px;
-  border-bottom: 1px dotted #999;
+  padding-top: 8px;
   display: inline-block;
+}
+
+.grade-legend-container {
+  position: relative;
+}
+
+.guide .grade-legend-item {
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: -1px;
+  border-bottom: 5px solid transparent;
 }
 
 /* -----------------------------------------------------------------------------
@@ -539,6 +553,8 @@ td.performance {
 
 .schools .aps-entry {
   vertical-align: text-top;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .aps-entry-mean {
@@ -870,23 +886,17 @@ section.grayscale .entries {
   text-align: right;
 }
 
-.A .bar { background: #0d8a00; }
-.B .bar { background: #51b546; }
-.C .bar { background: #8a8a8a; }
-.D .bar { background: #c46e6e; }
-.E .bar { background: #c10e0e; }
-
-.C .pull-right,
-.C .pull-left {
+.aps-entry .grade-right,
+.aps-entry .grade-left {
   position: absolute;
   color: #888;
 }
 
-.C .pull-right {
+.grade-right {
   left: 100%;
 }
 
-.C .pull-left {
+.grade-left {
   right: 100%;
 }
 

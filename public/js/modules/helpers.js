@@ -36,6 +36,15 @@ var grades = {
   'E': 150
 };
 
+var gradeColors = {
+  'A*': '#0d8a00',
+  'A': '#0d8a00',
+  'B': '#51b546',
+  'C': '#8a8a8a',
+  'D': '#c46e6e',
+  'E': '#c10e0e',
+};
+
 app.helpers.grade = function(pointScore) {
   for (var grade in grades) {
     if (pointScore < grades[grade] + 15 &&
@@ -45,4 +54,32 @@ app.helpers.grade = function(pointScore) {
   }
 };
 
-app.helpers.apsInterpolate = app.utils.uninterpolateClamp(app.preload.aps.min, app.preload.aps.max);
+app.helpers.gradeColor = function(grade) {
+  return gradeColors[grade] || gradeColors['E'];
+};
+
+app.helpers.buildLegend = function() {
+  var $container = $('.grade-legend-container');
+  var elements = [];
+  var x = app.helpers.apsInterpolate;
+  var perc = app.utils.toPercentage;
+  for (var grade in grades) {
+    if (grade === 'A*') continue;
+    var score = grades[grade];
+    var color = app.helpers.gradeColor(grade);
+    var x0 = x(score+15);
+    var x1 = x(score-15);
+    var element = $('<div>'+grade+'</div>')
+      .addClass('grade-legend-item')
+      .css({
+        'left': perc(x0),
+        'width': perc(x1-x0),
+        'border-color': color,
+        'color': color
+      });
+    elements.push(element);
+  }
+  $container.append(elements);
+};
+
+app.helpers.apsInterpolate = app.utils.uninterpolateClamp(app.preload.aps.max, app.preload.aps.min);

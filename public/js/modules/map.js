@@ -40,15 +40,6 @@ Map.prototype.icon = {
   strokeWeight: 1
 };
 
-Map.prototype.colors = {
-  'A*': '#0d8a00',
-  'A': '#0d8a00',
-  'B': '#51b546',
-  'C': '#8a8a8a',
-  'D': '#c46e6e',
-  'E': '#c10e0e',
-};
-
 Map.prototype.show = function(models) {
   this.empty();
   models.forEach(this.addMarker.bind(this));
@@ -65,6 +56,7 @@ Map.prototype.addMarker = function(model) {
   }
 
   var grade = app.helpers.grade(aps);
+  var color = aps ? app.helpers.gradeColor(grade) : '#ccc';
   var scale = Math.max(Math.sqrt(totalStudents)/1.8, 4) || 4;
   var zIndex = (totalStudents > 10) ? 10000 - totalStudents : 0;
 
@@ -74,7 +66,7 @@ Map.prototype.addMarker = function(model) {
     title: model.get('name'),
     icon: _.extend({}, this.icon, { 
       scale: scale,
-      fillColor: this.colors[grade] || '#ccc'
+      fillColor: color
     }),
     zIndex: zIndex,
   });

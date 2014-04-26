@@ -32,10 +32,10 @@ module.exports = function(callback) {
     var median = d3.median(scores);
 
     var x = d3.scale.linear()
-        // 150 point score = Grade E (minimum grade)
-        .domain([150, d3.max(scores)])
-        .range([0, 1])
-        .nice();
+        // 135 = lower limit of E
+        // 285 = upper limit of A
+        .domain([135, 285])
+        .range([0, 1]);
 
     var data = d3.layout.histogram()
         .bins(x.ticks(15))
@@ -69,7 +69,7 @@ module.exports = function(callback) {
     callback({
       measures: measures,
       html: chart.node().outerHTML,
-      css: '.aps-entry-mean { background-position: '+percent(x(measures.mean))+' 0 }'
+      css: '.aps-entry-mean { background-position: '+percent(1-x(measures.mean))+' 0 }'
     });
 
   });

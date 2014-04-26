@@ -144,7 +144,7 @@ module.exports = function(grunt) {
     histogram(function(data) {
       grunt.file.write('tasks/preload/aps.js', JSON.stringify(data.measures));
       grunt.file.write('public/js/templates/histogram.tmpl', data.html);
-      grunt.file.write('public/sass/histogram.scss', data.css);
+      grunt.file.write('public/sass/aps.scss', data.css);
       done();
     });
   });
