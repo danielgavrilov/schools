@@ -71,6 +71,7 @@ app.views.search = Backbone.View.extend({
     var self = this;
     options = options || {};
     app.schools.loadingStart();
+    if (!options.postcode) self._updateQuery('');
     app.get.byLocation(location, options, function(err, schools, resp) {
       var urns = _.pluck(schools, '_id');
       var location = resp.near && resp.near.location;
@@ -83,7 +84,6 @@ app.views.search = Backbone.View.extend({
         lng: location[0],
         lat: location[1]
       });
-      if (!options.postcode) self._updateQuery('');
       if (options.centerMap) app.map.fitMarkers(true);
       if (options.distance) app.state.set('distance', options.distance);
     });
