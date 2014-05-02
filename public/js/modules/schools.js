@@ -242,14 +242,14 @@ app.collections.results = app.collections.schools.extend({
   addFilter: function(filter) {
     if (this.filters.indexOf(filter) === -1) {
       this.filters.push(filter);
-      this.trigger('update');
+      this.trigger('filter');
     }
   },
   removeFilter: function(filter) {
     var index = this.filters.indexOf(filter);
     if (index > -1) {
       this.filters.splice(index, 1);
-      this.trigger('update');
+      this.trigger('filter');
     }
   },
 });
@@ -269,9 +269,9 @@ app.views.schools = Backbone.View.extend({
     this.listenTo(this.compare, 'remove', this._onRemove);
     this.listenTo(this.results, 'remove', this._onRemove);
     this.listenTo(this.compare, 'add remove reset sort', this._updateCompare);
-    this.listenTo(this.results, 'add remove reset sort update', this._updateResults);
-    this.listenTo(this.compare, 'add remove reset update', this._updateSubjectCounts);
-    this.listenTo(this.results, 'add remove reset update', this._updateSubjectCounts);
+    this.listenTo(this.results, 'add remove reset sort filter', this._updateResults);
+    this.listenTo(this.compare, 'add remove reset filter', this._updateSubjectCounts);
+    this.listenTo(this.results, 'add remove reset filter', this._updateSubjectCounts);
     this.results.addFilter(function(model) {
       return !self.compare.contains(model);
     });

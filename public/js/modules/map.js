@@ -139,13 +139,13 @@ Map.prototype.attachEvents = function() {
 
   google.maps.event.addListener(this.map, 'bounds_changed', queue);
 
-  app.results.on('reset update', function() {
+  app.results.on('reset filter', function() {
     self.show(app.results.visible());
     var isNameSearch = !!app.state.get('q').length;
     if (isNameSearch) self.fitMarkers(true);
   });
 
-  app.compare.on('reset update', function() {
+  app.compare.on('reset', function() {
 
   });
 };
