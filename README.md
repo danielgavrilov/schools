@@ -10,7 +10,7 @@ To run this locally, you will need:
 - MongoDB
 - Python (for populating the database)
 
-To set up the database, rename `db/mongo_admin.json.example` to `db/mongo_admin.json` and change both `url` in `mongo_admin.json` and `DATABASE_URL` in `config.js` to the URL of your MongoDB instance. Then, open the console in the `db` folder of this project and run:
+To set up the database, rename `db/mongo_admin.json.example` to `db/mongo_admin.json` and change both `url` in `mongo_admin.json` and `DATABASE_URL` in `config.js` to the URL of your MongoDB instance. Then, to populate the database, open the console in the `db` folder of this project and run:
 
     python insert_schools.py
     python update_location.py
@@ -30,7 +30,7 @@ After that, move to the root folder of this project and install all Node.js depe
 
     node app
 
-If nothing went wrong so far, you should be able to access the server at `http://localhost:8000`.
+If nothing went wrong so far, you should be able to access the server at http://localhost:8000.
 
 ## Some background
 
