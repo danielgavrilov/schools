@@ -72,6 +72,7 @@ Map.prototype.addMarker = function(model) {
   });
 
   marker.set('model', model);
+  marker.set('originalZIndex', zIndex);
   
   this.attachMarkerEvents(marker);
   this.markers.push(marker);
@@ -169,6 +170,7 @@ Map.prototype.attachMarkerEvents = function(marker) {
   });
 
   model.on('change:hover', function(model, hoverValue) {
+    marker.setZIndex(hoverValue ? 10001 : marker.get('originalZIndex'));
     marker.setIcon(_.extend({}, marker.icon, {
       strokeWeight: hoverValue ? 3 : 1,
       strokeColor: hoverValue ? 'black' : 'white'
