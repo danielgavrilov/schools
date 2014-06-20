@@ -5,17 +5,21 @@ var db = mongojs(config.DATABASE_URL, ['schools']);
 var schools = db.schools;
 var app = module.exports = express();
 
+// Given a string, it returns
+// - the string itself, if it's in a valid URN format
+// - undefined if it's an invalid URN format
 function validURN(urn) {
   if (isNaN(urn) || urn.length !== 6) return;
   return urn;
 }
 
-function between(lower, upper, defaultValue) {
+// Returns a function that "clamps" values passed to it
+function between(min, max, defaultValue) {
   return function(n) {
     n = +n;
     if (isNaN(n)) return defaultValue;
-    if (n > upper) return upper;
-    if (n < lower) return lower;
+    if (n > max) return max;
+    if (n < min) return min;
     return n;
   };
 }
@@ -23,6 +27,14 @@ function between(lower, upper, defaultValue) {
 var schoolLimit = between(1, 100, 50);
 var distanceLimit = between(0, 80000, 80000);
 
+// Middleware for parsing longitude and latitude.
+// 
+// If query parameters `lng` and `lat` are provided, it:
+// - attaches them as properties of the request, if they are valid
+// - responds with an appropriate error, if they are invalid
+// 
+// If they are not provided, the request is passed onto
+// the next middleware.
 function parseLngLat(req, res, next) {
   if (!req.query.lat || !req.query.lng) return next();
 
