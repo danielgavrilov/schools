@@ -67,8 +67,8 @@ app.helpers.buildLegend = function() {
     if (grade === 'A*') continue;
     var score = grades[grade];
     var color = app.helpers.gradeColor(grade);
-    var x0 = x(score+15);
-    var x1 = x(score-15);
+    var x0 = x(score-15);
+    var x1 = x(score+15);
     var element = $('<div>'+grade+'</div>')
       .addClass('grade-legend-item')
       .css({
@@ -82,4 +82,4 @@ app.helpers.buildLegend = function() {
   $container.append(elements);
 };
 
-app.helpers.apsInterpolate = app.utils.uninterpolateClamp(app.preload.aps.max, app.preload.aps.min);
+app.helpers.apsInterpolate = app.utils.uninterpolateClamp(app.preload.aps.min, app.preload.aps.max);
