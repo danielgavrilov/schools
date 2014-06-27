@@ -68,21 +68,12 @@ app.views.school = Backbone.View.extend({
       if (typeof score !== 'number') throw new Error('School does not have score');
       var grade = app.helpers.grade(score) || "U";
       var color = app.helpers.gradeColor(grade);
-      var mean = app.preload.aps.mean;
-      var aboveAverage = score >= mean;
-      var percentage = app.utils.toPercentage;
-      var interpolate = app.helpers.apsInterpolate;
-      var left = interpolate(aboveAverage ? mean : score);
-      var width = Math.abs(interpolate(score) - interpolate(mean));
-      var classed = aboveAverage ? 'right' : 'left';
       var html = app.templates.grade({
         grade: grade,
-        left: percentage(left),
-        width: percentage(width),
-        classed: classed
+        color: color,
+        width: app.utils.toPercentage(app.helpers.apsInterpolate(score))
       });
-      this.$aps.html(html)
-        .find('.bar').css('background-color', color);
+      this.$aps.html(html);
     } catch(e) {}
   },
   updateDistance: function() {

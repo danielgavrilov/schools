@@ -876,28 +876,11 @@ section.grayscale .entries {
 }
 
 .aps-entry .bar {
+  background-color: rgba(150,150,150,.85);
   position: absolute;
   top: 4px;
   height: 20px;
-  min-width: 1px;
-}
-
-.bar.right {
   text-align: right;
-}
-
-.aps-entry .grade-right,
-.aps-entry .grade-left {
-  position: absolute;
-  color: #888;
-}
-
-.grade-right {
-  left: 100%;
-}
-
-.grade-left {
-  right: 100%;
 }
 
 /* -----------------------------------------------------------------------------
