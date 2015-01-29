@@ -59,6 +59,7 @@ subject_map = {
     # "Health & Social Care": "",
     # "History": "",
     # "History of Art": "",
+    "Humanities: Single": "Humanities",
     # "Home Economics: Food": "",
     "Information & Communications Technology": "ICT",
     # "Italian": "",
