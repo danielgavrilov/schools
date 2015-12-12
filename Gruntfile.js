@@ -71,7 +71,7 @@ module.exports = function(grunt) {
       build: {
         options: {
           mangle: true,
-          compress: true,
+          compress: {},
           sourceMap: true,
           sourceMapRoot: 'public/',
           preserveComments: 'some',
