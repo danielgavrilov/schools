@@ -47,8 +47,7 @@ app.get.postcode = function(postcode, callback) {
     data: {
       address: postcode,
       components: 'country:UK',
-      region: 'uk',
-      sensor: 'false'
+      region: 'uk'
     },
     success: function(json) {
       try {
