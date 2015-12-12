@@ -42,7 +42,7 @@ app.get.byLocation = function(location, options, callback) {
 app.get.postcode = function(postcode, callback) {
   postcode = postcode.replace(/\s+/g,'').toUpperCase();
   $.ajax({
-    url: 'http://maps.googleapis.com/maps/api/geocode/json',
+    url: 'https://maps.googleapis.com/maps/api/geocode/json',
     dataType: 'json',
     data: {
       address: postcode,
