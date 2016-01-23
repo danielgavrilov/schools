@@ -1,5 +1,6 @@
+var config = require('../../config');
 var mongojs = require('mongojs');
-var db = mongojs('ks5', ['schools']);
+var db = mongojs(config.DATABASE_URL, ['schools']);
 var schools = db.schools;
 
 exports.getNames = function(callback) {

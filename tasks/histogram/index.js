@@ -1,7 +1,7 @@
 var mongojs = require('mongojs');
-var db = mongojs('ks5', ['schools']);
-var schools = db.schools;
 var config = require('../../config');
+var db = mongojs(config.DATABASE_URL, ['schools']);
+var schools = db.schools;
 var YEAR = config.YEAR;
 var d3 = require('d3');
 
