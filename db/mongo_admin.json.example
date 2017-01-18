@@ -1,3 +1,4 @@
 {
-	"url": "mongodb://<user>:<password>@<hostname>:<port>/ks5"
+	"url": "mongodb://<user>:<password>@<hostname>:<port>/<database>",
+	"database": "<database>"
 }

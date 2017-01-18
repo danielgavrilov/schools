@@ -1,8 +1,8 @@
 from pymongo import MongoClient
-from helpers import db_url, parse_xls, group_xls, to_int
+from helpers import db_url, db_database, parse_xls, group_xls, to_int
 
 mongo = MongoClient(db_url)
-db = mongo.ks5
+db = mongo[db_database]
 
 print("Updating IB student numbers (2014)... ")
 for school in parse_xls("../data/2014/ks5_subjects.xlsx", "IB Diploma", header_row=2):

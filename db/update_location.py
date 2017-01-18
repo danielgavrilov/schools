@@ -1,8 +1,8 @@
 from pymongo import MongoClient, GEOSPHERE
-from helpers import db_url, get_location
+from helpers import db_url, db_database, get_location
 
 mongo = MongoClient(db_url)
-db = mongo.ks5
+db = mongo[db_database]
 
 missing_location = db.schools.find({"location": None}, {"postcode": 1})
 not_found = []
