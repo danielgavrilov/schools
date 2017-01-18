@@ -5,11 +5,11 @@ from subjects import subject_name
 mongo = MongoClient(db_url)
 db = mongo[db_database]
 
-print("Updating A-level results (2014)...")
+print("Updating A-level results (2015)...")
 
-A2 = group_xls("../data/2014/ks5_subjects.xlsx", "1.A level", 
-               group_by="URN", 
-               extract=["Subject", "Number entered", "Grade A*", "Grade A", "Grade B", "Grade C", "Grade D", "Grade E", "No results"], 
+A2 = group_xls("../data/2015/ks5_subjects.xlsx", "1.A level",
+               group_by="URN",
+               extract=["Subject", "Number entered", "Grade A*", "Grade A", "Grade B", "Grade C", "Grade D", "Grade E", "No results"],
                header_row=2)
 
 for school in A2:
@@ -38,7 +38,7 @@ for school in A2:
 
     db.schools.update(
         { "_id": urn },
-        { "$set": { "performance.2014.results.a-level": subjects } }
+        { "$set": { "performance.2015.results.a-level": subjects } }
     )
 
 mongo.close()
