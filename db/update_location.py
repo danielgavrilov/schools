@@ -21,4 +21,4 @@ if not_found:
 
 db.schools.ensure_index([("location", GEOSPHERE)])
 
-mongo.disconnect()
+mongo.close()

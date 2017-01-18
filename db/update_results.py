@@ -41,6 +41,6 @@ for school in A2:
         { "$set": { "performance.2014.results.a-level": subjects } }
     )
 
-mongo.disconnect()
+mongo.close()
 
 print("\nDone.")

@@ -18,6 +18,6 @@ for school in parse_xls("../data/2014/ks5_subjects.xlsx", "AQA Baccalaureate", h
         { "$set": { "performance.2014.students.aqa-bacc": to_int(school["Number entered"]) } }
     )
 
-mongo.disconnect()
+mongo.close()
 
 print("\nDone.")

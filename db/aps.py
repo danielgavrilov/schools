@@ -64,4 +64,4 @@ print("{0} calculated with significant error.".format(inaccurate))
 print("{0} schools had only suppressed results.".format(all_suppressed))
 print("{0} scohols did not provide information.".format(no_info))
 
-mongo.disconnect()
+mongo.close()

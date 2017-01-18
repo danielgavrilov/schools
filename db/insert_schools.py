@@ -46,6 +46,6 @@ for school in parse_csv("../data/2014/ks5_attainment.csv"):
         db.schools.update({"_id": school["URN"]}, {"$set": {"new": True}})
 
 
-mongo.disconnect()
+mongo.close()
 
 print("\nDone.")
