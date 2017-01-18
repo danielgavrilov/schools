@@ -28,11 +28,11 @@ var schoolLimit = between(1, 100, 50);
 var distanceLimit = between(0, 80000, 80000);
 
 // Middleware for parsing longitude and latitude.
-// 
+//
 // If query parameters `lng` and `lat` are provided, it:
 // - attaches them as properties of the request, if they are valid
 // - responds with an appropriate error, if they are invalid
-// 
+//
 // If they are not provided, the request is passed onto
 // the next middleware.
 function parseLngLat(req, res, next) {
@@ -69,14 +69,14 @@ app.get('/schools', function(req, res, next) {
   var query = urns ? {_id: {$in: urns}} : {};
   var limit = schoolLimit(req.query.limit);
 
-  schools.find(query, {limit: limit}, function(err, results) {
+  schools.find(query).limit(limit, function(err, results) {
     if (err) return next(err);
     res.jsonp({results: results});
   });
 });
 
 app.get('/schools/near', parseLngLat, function(req, res, next) {
-  
+
   if (req.lng === undefined || req.lat === undefined) return res.jsonp(400, {
     error: "No valid location was provided."
   });
@@ -85,23 +85,23 @@ app.get('/schools/near', parseLngLat, function(req, res, next) {
   var limit = schoolLimit(req.query.limit);
   var coords = [req.lng, req.lat];
 
-  schools.find({ 
+  schools.find({
     location: {
-      $near: { 
-        $geometry: { 
+      $near: {
+        $geometry: {
           type: "Point",
           coordinates: coords
-        } 
-      },
-      $maxDistance: distance
+        },
+        $maxDistance: distance
+      }
     }
-  }, {limit: limit}, function(err, results) {
+  }).limit(limit, function(err, results) {
     if (err) return next(err);
     res.jsonp({
       near: {
         location: coords
       },
-      results: results 
+      results: results
     });
   });
 });
