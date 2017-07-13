@@ -9,7 +9,7 @@
     "url": "https://github.com/danielgavrilov/schools.git"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "8.1.x"
   },
   "dependencies": {
     "ejs": "~0.8.5",
